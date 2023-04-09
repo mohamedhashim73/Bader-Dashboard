@@ -21,11 +21,11 @@ class LoginScreen extends StatelessWidget {
         if( state is LoginSuccessState )
           {
             showSnackBar(context: context, message: "تم تسجيل الدخول بنجاح",backgroundColor: Colors.green,seconds: 2);
-            Navigator.pushNamed(context, 'dashboard_screen');
+            Navigator.pushReplacementNamed(context, 'dashboard_screen');
           }
         if( state is FailedToLoginState )
           {
-            showSnackBar(context: context, message: "برجاء التأكد من البيانات المدخله",backgroundColor: Colors.red,seconds: 2);
+            showSnackBar(context: context, message: state.message,backgroundColor: Colors.red,seconds: 2);
           }
       },
       builder: (context,state) {
@@ -44,7 +44,8 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:
                       [
-                        Image.asset("assets/images/admin_login_banner.png",height: 276.h,width: 372.w),
+                        Image.asset("assets/images/admin_login_banner.png",height: 276.h,width:double.infinity,fit: BoxFit.fill,),
+                        SizedBox(height: 20.h,),
                         Text("البريد الإلكتروني",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold),),
                         SizedBox(height: 5.h,),
                         _textField(controller: _emailController),
@@ -59,7 +60,7 @@ class LoginScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           minWidth: double.infinity,
                           textColor: Colors.white,
-                          child: Text(state is LoginLoadingState ? "جاري التسجيل ..." : "تسجيل دخول",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.bold),),
+                          child: Text(state is LoginLoadingState ? "جاري تسجيل الدخول" : "تسجيل دخول",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.bold),),
                           onPressed: ()
                           {
                             if( _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty )

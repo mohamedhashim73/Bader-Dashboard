@@ -1,3 +1,4 @@
+import 'package:badir_app/Admin/view_model/auth_view_model/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import '../../shared/components/colors.dart';
 
@@ -28,13 +29,13 @@ class DrawerItem extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.start,
         children:
         [
-          const UserAccountsDrawerHeader(
-            decoration: BoxDecoration(
+          UserAccountsDrawerHeader(
+            decoration: const BoxDecoration(
                 color: mainColor
             ),
-            accountName: Text("محمد هاشم"),
-            accountEmail: Text("mohamedhashimrezk73@gmail.com"),
-            currentAccountPicture: CircleAvatar(
+            accountName: Text(AuthCubit.getInstance(context).adminModel!.name!),
+            accountEmail: Text(AuthCubit.getInstance(context).adminModel!.email!),
+            currentAccountPicture: const CircleAvatar(
               backgroundColor: Colors.white,
               child: Icon(Icons.person,color: Colors.black,),
             ),

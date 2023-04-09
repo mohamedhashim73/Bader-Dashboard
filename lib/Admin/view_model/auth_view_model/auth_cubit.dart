@@ -1,3 +1,4 @@
+import 'package:badir_app/Admin/model/admin_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,23 +11,39 @@ class AuthCubit extends Cubit<AuthStates>{
 
   static AuthCubit getInstance(BuildContext context) => BlocProvider.of(context);
 
+  AdminModel? adminModel;
+  Future<void> getAdminInfo() async {
+    try{
+      adminModel = await authRepository.getAdminData();
+      emit(GetAdminDataSuccessState());
+    }
+    on FirebaseAuthException catch (e) {
+      debugPrint("Failed To get Admin Data , reason : ${e.message}");
+      emit(FailedGetAdminDataState());
+    }
+  }
+
   Future<void> login({required String email,required String password}) async {
+    if( adminModel?.id == null ) await getAdminInfo();
     emit(LoginLoadingState());
     try{
       UserCredential userCredential = await authRepository.login(email: email, password: password);
-      if( userCredential.user?.uid != null )
+      if( userCredential.user?.uid != null && email.trim() == adminModel!.email!.trim())   // لازم يكون البريد هو نفسه اللي في Firestore
       {
-        debugPrint("User Data is : ${userCredential.user!}");
+        if( adminModel!.password != password )   // معناها ان هو دخل علي نسيت كلمه السر وغيره
+        {
+          await authRepository.updateAdminPassword(newPassword: password, adminID: userCredential.user!.uid);
+          emit(UpdateAdminPasswordSuccessState());
+        }
         emit(LoginSuccessState());
       }
       else
       {
-        debugPrint("User info is : $userCredential");
-        emit(FailedToLoginState());
+        emit(FailedToLoginState(message: "غير مصرح لهذا الحساب بالدخول ك أدمن"));
       }
     } on FirebaseAuthException catch(e){
       debugPrint("Failed To Login as an Admin, reason : ${e.message}");
-      emit(FailedToLoginState());
+      emit(FailedToLoginState(message: "غير مصرح لهذا الحساب بالدخول ك أدمن"));
     }
   }
 
@@ -43,4 +60,5 @@ class AuthCubit extends Cubit<AuthStates>{
       emit(SendPasswordResetEmailFailureState());
     }
   }
+
 }

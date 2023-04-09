@@ -1,3 +1,5 @@
+import 'package:badir_app/Admin/model/admin_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +21,22 @@ class AuthRepository{
       debugPrint("Failed To send Password Reset to Email, reason : ${e.toString()}");
       return false;
     }
+  }
+
+  Future<AdminModel?> getAdminData() async {
+    AdminModel? model;
+    await FirebaseFirestore.instance.collection('Admin').get().then((value){
+      model = AdminModel.fromJson(json: value.docs.first.data());
+      debugPrint("Admin Info is : ${value.docs.first.data()}");
+    });
+    return model;
+  }
+
+  // هستعملها في حاله تسجيل الدخول لو وجدت ان الباسورد مش هو اللي موجود ف FireStore لان ده معناها ان عمل نسيت كلمه السر وقام بتغييرها بالفعل
+  Future<void> updateAdminPassword({required String newPassword,required String adminID}) async {
+    await FirebaseFirestore.instance.collection('Admin').doc(adminID).update({
+      'password' : newPassword
+    });
   }
 
 }

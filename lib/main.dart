@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         return MultiBlocProvider(
           providers:
           [
-            BlocProvider(create: (context) => AuthCubit(authRepository: AuthRepository())),
+            BlocProvider(create: (context) => AuthCubit(authRepository: AuthRepository()..getAdminData())),
             BlocProvider(create: (context) => DashBoardCubit(dashboardRepository: DashboardRepository())..getClubs()..getEvents())
           ],
           child: MaterialApp(

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "605990300251",
+    "project_id": "badir-app",
+    "storage_bucket": "badir-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605990300251:android:628cc565aaf6b5db0f2d7e",
+        "android_client_info": {
+          "package_name": "com.example.badir_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605990300251-sk9tnanj2l6qahonoe746qjrrd4pciob.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUgujdtlUNut-JMZretoA9yPzx2Nl_b78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605990300251-sk9tnanj2l6qahonoe746qjrrd4pciob.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

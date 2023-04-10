@@ -41,7 +41,7 @@ class ViewClubsScreen extends StatelessWidget {
                             return SizedBox(height: isMobile? 10.h : 15.h,);
                         },
                         itemBuilder: (context,index){
-                          return GestureDetector(
+                          return InkWell(
                               onTap: ()
                               {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => ViewClubDetails(model: cubit.clubs[index])));
@@ -49,7 +49,7 @@ class ViewClubsScreen extends StatelessWidget {
                               child: _clubItem(isMobile : isMobile ,model: cubit.clubs[index],context: context,cubit: cubit,index: index)
                           );
                         }
-                    ) :
+                        ) :
                         Center(
                           child: Text("لم يتم اضافه أندية حتي الآن",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.sp,color: Colors.grey),),
                         )

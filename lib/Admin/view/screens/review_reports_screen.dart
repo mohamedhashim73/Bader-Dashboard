@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../widgets/drawer_item.dart';
+
 class ReviewReportsScreen extends StatelessWidget {
   const ReviewReportsScreen({super.key});
 
@@ -19,7 +21,7 @@ class ReviewReportsScreen extends StatelessWidget {
           listener: (context,state){},
           builder: (context,state){
             return Scaffold(
-                drawer: const Drawer(),
+                drawer: DrawerItem(),
                 appBar: AppBar(title: const Text("مراجعة التقارير")),
                 body: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 12.h),

@@ -23,8 +23,8 @@ class DashboardRepository{
 
   Future<void> createClub({required String name,required String college}) async {
     int lastIdForClubCreated = await getIdForLastClubCreated();
-    lastIdForClubCreated++;
-    final model = ClubModel(description:"",name: name,id: lastIdForClubCreated, image: "", college: college, leaderEmail: "", leaderID: "", committees: [], contactAccounts: "", leaderName: "", memberNum: 0);
+    lastIdForClubCreated++;  // lastIdForClubCreated = lastIdForClubCreated + 1 ;
+    ClubModel model = ClubModel(description:"",name: name,id: lastIdForClubCreated, image: "", college: college, leaderEmail: "", leaderID: "", committees: [], contactAccounts: "", leaderName: "", memberNum: 0);
     await FirebaseFirestore.instance.collection('Clubs').doc(lastIdForClubCreated.toString()).set(model.toJson());
   }
 

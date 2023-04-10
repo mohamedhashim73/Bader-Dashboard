@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../widgets/display_dialogs.dart';
+import '../widgets/drawer_item.dart';
 
 class DeleteClubScreen extends StatelessWidget {
   const DeleteClubScreen({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class DeleteClubScreen extends StatelessWidget {
           },
           builder: (context,state){
             return Scaffold(
-                drawer: const Drawer(),
+                drawer: DrawerItem(),
                 appBar: AppBar(title: const Text("حذف نادي")),
                 body: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 15.h),

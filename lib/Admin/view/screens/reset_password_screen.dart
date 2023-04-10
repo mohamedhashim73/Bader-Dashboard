@@ -56,7 +56,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                               {
                                 if( _emailController.text.isNotEmpty )
                                 {
-                                  if(  _emailController.text.trim() == "mohamedhashimrezk73@gmail.com" )
+                                  if(  _emailController.text.trim() == AuthCubit.getInstance(context).adminModel!.email!.trim() )
                                     {
                                       cubit.sendPasswordResetToEmail(email: _emailController.text.trim());
                                     }

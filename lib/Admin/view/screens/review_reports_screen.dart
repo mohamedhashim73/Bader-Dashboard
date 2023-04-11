@@ -1,5 +1,5 @@
 import 'package:badir_app/Admin/model/file_model.dart';
-import 'package:badir_app/Admin/shared/components/colors.dart';
+import 'package:badir_app/shared/components/colors.dart';
 import 'package:badir_app/Admin/view/screens/view_report_details.dart';
 import 'package:badir_app/Admin/view_model/home_view_model/dashboard_states.dart';
 import 'package:badir_app/Admin/view_model/home_view_model/dashboard_cubit.dart';

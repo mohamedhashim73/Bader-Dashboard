@@ -1,4 +1,4 @@
-import 'package:badir_app/Admin/shared/components/colors.dart';
+import 'package:badir_app/shared/components/colors.dart';
 import 'package:badir_app/Admin/view/screens/reset_password_screen.dart';
 import 'package:badir_app/Admin/view/widgets/display_dialogs.dart';
 import 'package:badir_app/Admin/view_model/auth_view_model/auth_cubit.dart';
@@ -14,6 +14,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isMobile = MediaQuery.of(context).size.width < 600;
     AuthCubit cubit = AuthCubit.getInstance(context);
     return BlocConsumer<AuthCubit,AuthStates>(
       listener: (context,state)
@@ -33,64 +34,21 @@ class LoginScreen extends StatelessWidget {
           textDirection: TextDirection.rtl,
           child: SafeArea(
             child: Scaffold(
-              body: Row(
-                children:
-                [
-                  const Expanded(flex:1,child: SizedBox()),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:
+              body: isMobile ?
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.0.w),
+                    child: _loginBody(state: state, context: context, cubit: cubit, emailController: _emailController, passwordController: _passwordController),
+                  ) :
+                  Row(
+                    children:
                       [
-                        Image.asset("assets/images/admin_login_banner.png",height: 276.h,width:double.infinity,fit: BoxFit.fill,),
-                        SizedBox(height: 20.h,),
-                        Text("البريد الإلكتروني",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold),),
-                        SizedBox(height: 5.h,),
-                        _textField(controller: _emailController),
-                        SizedBox(height: 13.h,),
-                        Text("كلمه المرور",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold),),
-                        SizedBox(height: 5.h,),
-                        _textField(controller: _passwordController,isSecure:true),
-                        SizedBox(height: 22.5.h,),
-                        MaterialButton(
-                          color: mainColor,
-                          height: 45.h,
-                          padding: EdgeInsets.symmetric(vertical: 10.h),
-                          minWidth: double.infinity,
-                          textColor: Colors.white,
-                          child: Text(state is LoginLoadingState ? "جاري تسجيل الدخول" : "تسجيل دخول",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.bold),),
-                          onPressed: ()
-                          {
-                            if( _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty )
-                              {
-                                cubit.login(email: _emailController.text, password: _passwordController.text);
-                              }
-                            else
-                              {
-                                showSnackBar(context: context, message: "برجاء إدخال البيانات كامله",backgroundColor: Colors.red,seconds: 2);
-                              }
-                          },
+                        const Expanded(flex:1,child: SizedBox()),
+                        Expanded(
+                          flex: 1,
+                          child: _loginBody(state: state, context: context, cubit: cubit, emailController: _emailController, passwordController: _passwordController),
                         ),
-                        SizedBox(height: 10.h,),
-                        Center(
-                          child: GestureDetector(
-                            onTap: ()
-                            {
-                              // Todo: عشان لو في بيانات وروحت علي الصفحه التانيه اما ارجع متكنش لسه موجوده
-                              _emailController.clear();
-                              _passwordController.clear();
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPasswordScreen()));
-                            },
-                            child: Text("هل نسيت كلمه المرور ؟",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.sp),),
-                          ),
-                        )
+                        const Expanded(flex:1,child: SizedBox()),
                       ],
-                    ),
-                  ),
-                  const Expanded(flex:1,child: SizedBox()),
-                ],
               )
             ),
           ),
@@ -98,6 +56,59 @@ class LoginScreen extends StatelessWidget {
       }
     );
   }
+}
+
+
+Widget _loginBody({required AuthStates state, required BuildContext context,required AuthCubit cubit,required TextEditingController emailController,required TextEditingController passwordController}){
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children:
+    [
+      Image.asset("assets/images/admin_login_banner.png",height: 276.h,width:double.infinity,fit: BoxFit.fill,),
+      SizedBox(height: 20.h,),
+      Text("البريد الإلكتروني",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold),),
+      SizedBox(height: 5.h,),
+      _textField(controller: emailController),
+      SizedBox(height: 13.h,),
+      Text("كلمه المرور",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold),),
+      SizedBox(height: 5.h,),
+      _textField(controller: passwordController,isSecure:true),
+      SizedBox(height: 22.5.h,),
+      MaterialButton(
+        color: mainColor,
+        height: 45.h,
+        padding: EdgeInsets.symmetric(vertical: 10.h),
+        minWidth: double.infinity,
+        textColor: Colors.white,
+        child: Text(state is LoginLoadingState ? "جاري تسجيل الدخول" : "تسجيل دخول",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.bold),),
+        onPressed: ()
+        {
+          if( emailController.text.isNotEmpty && passwordController.text.isNotEmpty )
+          {
+            cubit.login(email: emailController.text, password: passwordController.text);
+          }
+          else
+          {
+            showSnackBar(context: context, message: "برجاء إدخال البيانات كامله",backgroundColor: Colors.red,seconds: 2);
+          }
+        },
+      ),
+      SizedBox(height: 10.h,),
+      Center(
+        child: GestureDetector(
+          onTap: ()
+          {
+            // Todo: عشان لو في بيانات وروحت علي الصفحه التانيه اما ارجع متكنش لسه موجوده
+            emailController.clear();
+            passwordController.clear();
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPasswordScreen()));
+          },
+          child: Text("هل نسيت كلمه المرور ؟",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.sp),),
+        ),
+      )
+    ],
+  );
 }
 
 Widget _textField({required TextEditingController controller,bool? isSecure}){

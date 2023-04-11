@@ -1,6 +1,6 @@
 class EventModel{
   String? name;
-  int? id;
+  String? id;
   String? description;
   String? image;
   String? startDate;
@@ -10,7 +10,7 @@ class EventModel{
   String? location;
   String? link;
   List? speakers;
-  int? clubName;
+  String? clubName;
   String? clubID;
 
   EventModel({required this.speakers,required this.id,required this.startDate,required this.endDate,required this.clubID,required this.name,required this.image,required this.clubName,required this.link,required this.location,required this.forPublic,required this.time});

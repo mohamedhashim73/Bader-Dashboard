@@ -1,6 +1,6 @@
 import 'package:badir_app/Admin/view_model/auth_view_model/auth_cubit.dart';
 import 'package:flutter/material.dart';
-import '../../shared/components/colors.dart';
+import '../../../shared/components/colors.dart';
 
 class DrawerItem extends StatelessWidget{
   List<Map<String,dynamic>> drawerData = [
@@ -23,39 +23,42 @@ class DrawerItem extends StatelessWidget{
 
   DrawerItem({super.key});
   @override
-  Widget build(BuildContext context) => Drawer(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children:
-        [
-          UserAccountsDrawerHeader(
-            decoration: const BoxDecoration(
-                color: mainColor
+  Widget build(BuildContext context){
+    AuthCubit cubit = AuthCubit.getInstance(context);
+    return Drawer(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children:
+          [
+            if( cubit.adminModel != null ) UserAccountsDrawerHeader(
+              decoration: const BoxDecoration(
+                  color: mainColor
+              ),
+              accountName: Text(cubit.adminModel!.name!),
+              accountEmail: Text(cubit.adminModel!.email!),
+              currentAccountPicture: const CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(Icons.person,color: Colors.black,),
+              ),
             ),
-            accountName: Text(AuthCubit.getInstance(context).adminModel!.name!),
-            accountEmail: Text(AuthCubit.getInstance(context).adminModel!.email!),
-            currentAccountPicture: const CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Icon(Icons.person,color: Colors.black,),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-                itemCount: drawerData.length,
-                itemBuilder: (context,index){
-                  return ListTile(
-                    onTap: ()
-                    {
-                      Navigator.pushNamed(context, drawerData[index]['routeName']);
-                    },
-                    leading: Text(drawerData[index]['title']),
-                    trailing: Icon(drawerData[index]['iconData']),
-                  );
-                }
-            ),
-          )
-        ],
-      )
-  );
+            Expanded(
+              child: ListView.builder(
+                  itemCount: drawerData.length,
+                  itemBuilder: (context,index){
+                    return ListTile(
+                      onTap: ()
+                      {
+                        Navigator.pushNamed(context, drawerData[index]['routeName']);
+                      },
+                      leading: Text(drawerData[index]['title']),
+                      trailing: Icon(drawerData[index]['iconData']),
+                    );
+                  }
+              ),
+            )
+          ],
+        )
+    );
+  }
 }

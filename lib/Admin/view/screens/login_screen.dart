@@ -37,7 +37,9 @@ class LoginScreen extends StatelessWidget {
               body: isMobile ?
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15.0.w),
-                    child: _loginBody(state: state, context: context, cubit: cubit, emailController: _emailController, passwordController: _passwordController),
+                    child: SingleChildScrollView(
+                        child: Center(child: _loginBody(isMobile:isMobile,state: state, context: context, cubit: cubit, emailController: _emailController, passwordController: _passwordController))
+                    ),
                   ) :
                   Row(
                     children:
@@ -45,7 +47,7 @@ class LoginScreen extends StatelessWidget {
                         const Expanded(flex:1,child: SizedBox()),
                         Expanded(
                           flex: 1,
-                          child: _loginBody(state: state, context: context, cubit: cubit, emailController: _emailController, passwordController: _passwordController),
+                          child: _loginBody(isMobile : isMobile,state: state, context: context, cubit: cubit, emailController: _emailController, passwordController: _passwordController),
                         ),
                         const Expanded(flex:1,child: SizedBox()),
                       ],
@@ -59,7 +61,7 @@ class LoginScreen extends StatelessWidget {
 }
 
 
-Widget _loginBody({required AuthStates state, required BuildContext context,required AuthCubit cubit,required TextEditingController emailController,required TextEditingController passwordController}){
+Widget _loginBody({required bool isMobile,required AuthStates state, required BuildContext context,required AuthCubit cubit,required TextEditingController emailController,required TextEditingController passwordController}){
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.center,
@@ -78,7 +80,7 @@ Widget _loginBody({required AuthStates state, required BuildContext context,requ
       MaterialButton(
         color: mainColor,
         height: 45.h,
-        padding: EdgeInsets.symmetric(vertical: 10.h),
+        padding: EdgeInsets.symmetric(vertical: isMobile? 0 : 10.h),
         minWidth: double.infinity,
         textColor: Colors.white,
         child: Text(state is LoginLoadingState ? "جاري تسجيل الدخول" : "تسجيل دخول",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.bold),),
@@ -119,6 +121,7 @@ Widget _textField({required TextEditingController controller,bool? isSecure}){
       controller: controller,
       obscureText: isSecure ?? false,
       decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4)
         ),

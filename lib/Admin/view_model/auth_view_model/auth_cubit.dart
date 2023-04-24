@@ -2,6 +2,8 @@ import 'package:badir_app/Admin/model/admin_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../shared/components/constants.dart';
 import '../../repositories/auth_repo.dart';
 import 'auth_states.dart';
 
@@ -35,6 +37,9 @@ class AuthCubit extends Cubit<AuthStates>{
           await authRepository.updateAdminPassword(newPassword: password, adminID: userCredential.user!.uid);
           emit(UpdateAdminPasswordSuccessState());
         }
+        final sharedPref = await SharedPreferences.getInstance();
+        await sharedPref.setString("adminID", userCredential.user!.uid);
+        Constants.kAdminID = sharedPref.getString('adminID');
         emit(LoginSuccessState());
       }
       else

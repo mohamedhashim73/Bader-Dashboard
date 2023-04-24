@@ -25,7 +25,7 @@ class CreateClubScreen extends StatelessWidget{
             showSnackBar(context: context, message: "تم انشاء النادي بنجاح",backgroundColor: Colors.green,seconds: 5);
             clubName.clear();
             cubit.selectedCollege = null;
-            Navigator.pop(context);
+            Navigator.pushNamed(context, "dashboard_screen");
           }
           if( state is FailedToCreateClubState )
           {

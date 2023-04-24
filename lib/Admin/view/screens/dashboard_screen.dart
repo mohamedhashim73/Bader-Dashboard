@@ -58,7 +58,7 @@ Widget _dashboardBody({required DashBoardCubit cubit,required bool isMobile}){
         child: Container(
           height:double.infinity,
           width:double.infinity,
-          alignment: AlignmentDirectional.center,
+          alignment: isMobile? AlignmentDirectional.topStart : AlignmentDirectional.center,
           margin: EdgeInsets.symmetric(vertical: 15.h),
           child: GridView.builder(
               shrinkWrap: true,

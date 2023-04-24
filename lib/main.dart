@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:badir_app/Admin/repositories/auth_repo.dart';
 import 'package:badir_app/Admin/repositories/dashboard_repo.dart';
 import 'package:badir_app/shared/bloc_observer/bloc_observer.dart';
@@ -8,10 +10,12 @@ import 'package:badir_app/Admin/view/screens/login_screen.dart';
 import 'package:badir_app/Admin/view/screens/view_clubs_screen.dart';
 import 'package:badir_app/Admin/view_model/auth_view_model/auth_cubit.dart';
 import 'package:badir_app/Admin/view_model/home_view_model/dashboard_cubit.dart';
+import 'package:badir_app/shared/components/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Admin/view/screens/assign_leader_screen.dart';
 import 'Admin/view/screens/delete_club_screen.dart';
 import 'Admin/view/screens/review_reports_screen.dart';
@@ -22,14 +26,15 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
-  // Widget? initialRoute;
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // Todo: To Check If Admin has logined before or not to reach Main Screen without go to Login Screen at first
-  // FirebaseAuth.instance.authStateChanges().listen((userStream) {
-  //   userStream != null ? initialRoute = const DashboardScreen() : initialRoute = LoginScreen();
-  // });
+  // if( Platform.isAndroid )
+  //   {
+  //     // لان لو ويب هخليه يبدأ علي طول من تسجيل الدخول
+  //     final sharedPref = await SharedPreferences.getInstance();
+  //     Constants.kAdminID = sharedPref.getString('adminID');
+  //   }
   runApp( const MyApp());
 }
 
@@ -48,7 +53,7 @@ class MyApp extends StatelessWidget {
           providers:
           [
             BlocProvider(create: (context) => AuthCubit(authRepository: AuthRepository()..getAdminData())),
-            BlocProvider(create: (context) => DashBoardCubit(dashboardRepository: DashboardRepository())..getClubs()..getEvents())
+            BlocProvider(create: (context) => DashBoardCubit(dashboardRepository: DashboardRepository())..getAllClubs()..getEvents())
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -73,6 +78,7 @@ class MyApp extends StatelessWidget {
         );
       },
       child: LoginScreen()
+      // (Platform.isAndroid || Platform.isIOS) && Constants.kAdminID != null ? const DashboardScreen() : LoginScreen()
     );
   }
 }

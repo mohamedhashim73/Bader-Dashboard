@@ -23,7 +23,7 @@ class ViewClubsScreen extends StatelessWidget {
           {
             if( state is CreateClubSuccessState )
               {
-                cubit.getClubs();
+                cubit.getAllClubs();
               }
           },
           builder: (context,state){

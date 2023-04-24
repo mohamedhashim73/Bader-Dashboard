@@ -1,6 +1,6 @@
 import 'package:badir_app/Admin/model/event_model.dart';
+import 'package:badir_app/shared/components/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import '../model/club_model.dart';
 import '../model/file_model.dart';
 
@@ -8,7 +8,7 @@ class DashboardRepository{
 
   Future<int> getIdForLastClubCreated() async {
     int idForLastClubCreated = 0;
-    await FirebaseFirestore.instance.collection('Clubs').get().then((value){
+    await FirebaseFirestore.instance.collection(Constants.kClubsCollectionName).get().then((value){
       if(value.docs.isEmpty)
         {
           idForLastClubCreated = 0;
@@ -25,16 +25,16 @@ class DashboardRepository{
     int lastIdForClubCreated = await getIdForLastClubCreated();
     lastIdForClubCreated++;  // lastIdForClubCreated = lastIdForClubCreated + 1 ;
     ClubModel model = ClubModel(description:"",name: name,id: lastIdForClubCreated, image: "", college: college, leaderEmail: "", leaderID: "", committees: [], contactAccounts: "", leaderName: "", memberNum: 0);
-    await FirebaseFirestore.instance.collection('Clubs').doc(lastIdForClubCreated.toString()).set(model.toJson());
+    await FirebaseFirestore.instance.collection(Constants.kClubsCollectionName).doc(lastIdForClubCreated.toString()).set(model.toJson());
   }
 
   Future<void> deleteClub({required String clubID}) async {
-    await FirebaseFirestore.instance.collection('Clubs').doc(clubID).delete();
+    await FirebaseFirestore.instance.collection(Constants.kClubsCollectionName).doc(clubID).delete();
   }
 
   Future<List<ClubModel>> getClubs() async {
     List<ClubModel> clubs = [];
-    await FirebaseFirestore.instance.collection('Clubs').get().then((value){
+    await FirebaseFirestore.instance.collection(Constants.kClubsCollectionName).get().then((value){
       for( var item in value.docs )
       {
         clubs.add(ClubModel.fromJson(json: item.data()));
@@ -64,6 +64,10 @@ class DashboardRepository{
           'leaderName' : leaderName
         }
     );
+    // TODO: Update LeaderInfo on FireStore | isLeader = true as he became a Leader
+    await FirebaseFirestore.instance.collection(Constants.kUsersCollectionName).doc(leaderID).update({
+      'isALeader' : true
+    });
   }
 
   Future<List<EventModel>> getEvents() async {

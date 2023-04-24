@@ -56,7 +56,7 @@ class ViewClubDetails extends StatelessWidget {
 Widget _clubDetailsBody({required ClubModel model,required bool isMobile}){
   return ListView(
     shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
+    physics: isMobile ? const BouncingScrollPhysics() : const NeverScrollableScrollPhysics(),
     children:
     [
       model.image!.isNotEmpty ?

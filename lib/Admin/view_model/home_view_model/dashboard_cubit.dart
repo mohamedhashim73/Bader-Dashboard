@@ -1,11 +1,17 @@
+import 'dart:io';
 import 'package:badir_app/Admin/model/event_model.dart';
+import 'package:badir_app/Admin/model/notification_model.dart';
 import 'package:badir_app/Admin/repositories/dashboard_repo.dart';
+import 'package:badir_app/shared/components/constants.dart';
+import 'package:badir_app/shared/components/enumeration.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jiffy/jiffy.dart';
 import '../../model/admin_category_model.dart';
 import '../../model/club_model.dart';
 import '../../model/file_model.dart';
+import '../../model/user_model.dart';
 import 'dashboard_states.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +21,29 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
 
   // Todo: Get Instance From Cubit Class
   static DashBoardCubit getInstance(BuildContext context) => BlocProvider.of(context);
+
+  // TODO : SEND A NOTIFICATION TO USER AFTER MAKE HIM A LEADER ON SPECIFIC CLUB
+  Future<bool> sendNotifyToUserAfterMakingHimALeaderOnSpecificClub({required String receiverID,required String clubID,required String clubName}) async {
+    String? adminUid = FirebaseAuth.instance.currentUser!.uid;
+    final model = NotifyModel(
+        notifyDate: Constants.getTimeNow(),
+        clubID: clubID,
+        notifyMessage: 'لقد تم تعيينك ك أدمن ل $clubName',
+        fromAdmin: true,
+        senderID: adminUid,
+        notifyType: NotificationType.adminAskYouToBeALeaderOnClubThatHeSpecified.name
+    );
+    try
+    {
+      await FirebaseFirestore.instance.collection(Constants.kUsersCollectionName).doc(receiverID).
+      collection(Constants.kNotificationsCollectionName).add(model.toJson());
+      return true;
+    }
+    on FirebaseException catch(e)
+    {
+      return false;
+    }
+  }
 
   String? selectedCollege;
   void chooseCollege({required String value}){
@@ -35,12 +64,70 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
     CategoryModel(title: "مراجعة التقارير", iconData: Icons.preview,routeName: "review_Reports"),
   ];
 
+  // TODO: Get ALl Users to choose between them on select Leader ( Related to : Assign Leader to Club Screen )
+  List<UserModel> usersThatAreNotLeadersData = [];
+  void getUsersThatAreNotLeaders() async {
+    usersThatAreNotLeadersData.clear();
+    await FirebaseFirestore.instance.collection(Constants.kUsersCollectionName).get().then((value){
+      for( int count = 0 ; count < value.docs.length ; count++ )
+        {
+          // Todo: عشان لو بالفعل قائد لنادي متظهرش الداتا بتاعته
+          if( value.docs[count].data()['isALeader'] == false )
+            {
+              usersThatAreNotLeadersData.add(UserModel.fromJson(json: value.docs[count].data()));
+            }
+        }
+      debugPrint("Users number is : ${usersThatAreNotLeadersData.length}");
+      emit(GetUsersDataSuccessState());
+    });
+  }
+
+  // Todo: ده هستدعيها اما الادمن يضغط علي تعيين القائد في الاخر بعد اما اختار البريد تبع القائد من خلال dropDownButton ( Related to : Assign Leader to Club Screen )
+  Future<UserModel> getInfoForSelectedLeaderFromDropDownButton({required String email}) async {
+    return usersThatAreNotLeadersData.firstWhere((element) => element.email!.trim() == email.trim());
+  }
+
+  // TODO: ده عشان امرر الايميل لل DropDownButton  ( Related to : Assign Leader to Club Screen )
+  String? selectedLeaderEmail;
+  void chooseALeaderFromDropDownButton({required String value}){
+    selectedLeaderEmail = value;
+    emit(ChooseALeaderSuccessState());
+  }
+
+  // TODO: Get ALl Users to choose between them on select Leader ( Related to : Assign Leader to Club Screen )
+  List<ClubModel> clubsWithoutLeaderData = [];
+  Future<void> getClubsWithoutLeader() async {
+    clubsWithoutLeaderData.clear();
+    for( int count = 0 ; count < clubs.length ; count++ )
+    {
+      if( clubs[count].leaderID == null || clubs[count].leaderID!.isEmpty )
+        {
+          clubsWithoutLeaderData.add(clubs[count]);
+        }
+    }
+    debugPrint("Clubs that without leader number is : ${clubsWithoutLeaderData.length}");
+    emit(GetClubsWithoutLeaderSuccessState());
+  }
+
+  // TODO: ده عشان امرر اسم النادي لل DropDownButton ( Related to : Assign Leader to Club Screen )
+  String? selectedClubName;
+  void chooseClubNameFromDropDownButton({required String value}){
+    selectedClubName = value;
+    emit(ChooseClubNameSuccessState());
+  }
+
+  // Todo: ده هستدعيها اما الادمن يضغط علي تعيين القائد في الاخر بعد اما اختار البريد تبع القائد من خلال dropDownButton  ( Related to : Assign Leader to Club Screen )
+  Future<ClubModel> getInfoForClubChosenFromDropDownButton({required String clubName}) async {
+    return clubs.firstWhere((element) => element.name!.trim() == clubName.trim());
+  }
+
   // Todo: Responsible to change password by click on Forget Password Button
   Future<void> createClub({required String name,required String college}) async {
     emit(CreateClubLoadingState());
     try {
       await dashboardRepository.createClub(name: name,college: college.trim());
-      await getClubs();
+      await getAllClubs();
+      await getClubsWithoutLeader();
       emit(CreateClubSuccessState());
     }
     on FirebaseException catch(e)
@@ -55,7 +142,7 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
     emit(DeleteClubLoadingState());
     try {
       await dashboardRepository.deleteClub(clubID: clubID);
-      await getClubs();
+      await getAllClubs();
       emit(DeleteClubSuccessState());
     }
     on FirebaseException catch(e)
@@ -66,12 +153,21 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
   }
 
   // Todo: Assign Club Leader
-  Future<void> assignClubLeader({required String clubID,required String leaderID,required String leaderName,required String leaderEmail}) async {
+  Future<void> assignClubLeader({required String clubName,required String clubID,required String leaderID,required String leaderName,required String leaderEmail}) async {
     emit(AssignLeaderToClubLoadingState());
-    try{
-      await dashboardRepository.assignClubLeader(clubID: clubID,leaderEmail: leaderEmail,leaderID: leaderID,leaderName: leaderName);
+    try
+    {
+      await dashboardRepository.assignClubLeader(clubID: clubID, leaderID: leaderID, leaderEmail: leaderEmail, leaderName: leaderName);
       // Todo: Send Notification to Leader that you assigned to Know about his new role
-      emit(AssignLeaderToClubSuccessState());
+      bool sendNotification = await sendNotifyToUserAfterMakingHimALeaderOnSpecificClub(clubID: clubID,clubName: clubName,receiverID: leaderID);
+      if( sendNotification == true )
+        {
+          emit(AssignLeaderToClubSuccessState());
+        }
+      else
+        {
+          emit(FailedToAssignLeaderToClubState());
+        }
     }
     on FirebaseException catch(e){
       debugPrint("Error during assign Leader to Club, reason : ${e.message}");
@@ -81,10 +177,12 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
 
   // Todo: Get Clubs Info
   List<ClubModel> clubs = [];
-  Future<void> getClubs() async {
+  Future<void> getAllClubs() async {
     emit(GetClubsLoadingState());
-    try {
+    try
+    {
       clubs = await dashboardRepository.getClubs();
+      await getClubsWithoutLeader();
       emit(GetClubsSuccessState());
     }
     on FirebaseException catch(e)
@@ -123,53 +221,5 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
       emit(FailedToGetReportsState());
     }
   }
-
-  // Todo: .................. Related To Leader ( User App ) ............................
-  /*
-  // Todo: Related to Upload Pdf for Reports
-  File? pdfFile;
-  void selectPdf() async {
-    final pickedFile = await FilePicker.platform.pickFiles(allowedExtensions: ['pdf']);
-    if( pickedFile != null )
-      {
-        pdfFile = File(pickedFile.files.single.path!);
-        emit(SelectPdfSuccessState());
-      }
-    else
-      {
-        debugPrint("Failed To Choose Pdf to Upload it with Club Info");
-        emit(FailedToSelectPdfState());
-      }
-  }
-
-  // Todo: Related to Upload Image with Club Data
-  File? clubImageFile;
-  void selectClubImage() async {
-    var pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if( pickedImage != null )
-    {
-      clubImageFile = File(pickedImage.path);
-      emit(SelectImageSuccessState());
-    }
-    else
-    {
-      debugPrint("Failed To Choose Image to Upload it with Club Info");
-      emit(FailedToSelectImageState());
-    }
-  }
-
-  void cancelClubImage(){
-    clubImageFile = null;
-    emit(CancelClubImageState());
-  }
-
-  Future<String> uploadClubImageToFireStorage() async {
-    Reference imageReference = FirebaseStorage.instance.ref('Clubs/${basename(clubImageFile!.path)}');
-    await imageReference.putFile(clubImageFile!);
-    String clubImage = await imageReference.getDownloadURL();
-    debugPrint("Club Image after upload is : $clubImage");
-    return clubImage;
-  }
-   */
 
 }

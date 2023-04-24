@@ -4,6 +4,14 @@ class DashboardInitialState extends DashBoardStates{}
 
 class ChooseCollegeState extends DashBoardStates{}
 
+class GetClubsWithoutLeaderSuccessState extends DashBoardStates{}
+
+class GetUsersDataSuccessState extends DashBoardStates{}
+class ChooseALeaderSuccessState extends DashBoardStates{}
+
+// Club from Assign leader to it
+class ChooseClubNameSuccessState extends DashBoardStates{}
+
 // Todo: Select Pdf ( While Uploading Report Info ro Firestore )
 class SelectPdfSuccessState extends DashBoardStates{}
 class FailedToSelectPdfState extends DashBoardStates{}

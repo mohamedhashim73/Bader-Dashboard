@@ -99,7 +99,7 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
     clubsWithoutLeaderData.clear();
     for( int count = 0 ; count < clubs.length ; count++ )
     {
-      if( clubs[count].leaderID == null || clubs[count].leaderID!.isEmpty )
+      if( clubs[count].leaderID!.isEmpty )
         {
           clubsWithoutLeaderData.add(clubs[count]);
         }

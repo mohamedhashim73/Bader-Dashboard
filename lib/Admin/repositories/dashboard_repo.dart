@@ -66,7 +66,8 @@ class DashboardRepository{
     );
     // TODO: Update LeaderInfo on FireStore | isLeader = true as he became a Leader
     await FirebaseFirestore.instance.collection(Constants.kUsersCollectionName).doc(leaderID).update({
-      'isALeader' : true
+      'isALeader' : true,
+      'clubIDThatHeLead' : clubID,
     });
   }
 

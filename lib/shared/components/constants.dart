@@ -1,4 +1,4 @@
-import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 
 class Constants{
   static String kNotificationsCollectionName = "Notifications";
@@ -7,5 +7,5 @@ class Constants{
   static String kEventsCollectionName = "Events";
   static String kReportsCollectionName = "Reports";
   static String? kAdminID;
-  static String getTimeNow() => DateFormat('dd MMMM yyyy', 'ar').format(DateTime.now());
+  static String getTimeNow() => Jiffy(DateTime.now()).yMMMd;
 }

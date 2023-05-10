@@ -1,6 +1,9 @@
 import 'package:badir_app/Admin/view_model/auth_view_model/auth_cubit.dart';
+import 'package:badir_app/Admin/view_model/auth_view_model/auth_states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../shared/components/colors.dart';
+import '../../view_model/home_view_model/dashboard_cubit.dart';
 
 class DrawerItem extends StatelessWidget{
   List<Map<String,dynamic>> drawerData = [
@@ -25,39 +28,45 @@ class DrawerItem extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     AuthCubit cubit = AuthCubit.getInstance(context);
+    if( cubit.adminModel == null ) cubit.getAdminInfo();
     return Drawer(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:
-          [
-            if( cubit.adminModel != null ) UserAccountsDrawerHeader(
-              decoration: const BoxDecoration(
-                  color: mainColor
-              ),
-              accountName: Text(cubit.adminModel!.name!),
-              accountEmail: Text(cubit.adminModel!.email!),
-              currentAccountPicture: const CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Icon(Icons.person,color: Colors.black,),
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: drawerData.length,
-                  itemBuilder: (context,index){
-                    return ListTile(
-                      onTap: ()
-                      {
-                        Navigator.pushNamed(context, drawerData[index]['routeName']);
-                      },
-                      leading: Text(drawerData[index]['title']),
-                      trailing: Icon(drawerData[index]['iconData']),
-                    );
-                  }
-              ),
-            )
-          ],
+        child: BlocBuilder<AuthCubit,AuthStates>(
+          buildWhen: (pastState,currentState) => currentState is GetAdminDataSuccessState,
+          builder: (context,state) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children:
+              [
+                if( cubit.adminModel != null ) UserAccountsDrawerHeader(
+                  decoration: const BoxDecoration(
+                      color: mainColor
+                  ),
+                  accountName: Text(cubit.adminModel!.name!),
+                  accountEmail: Text(cubit.adminModel!.email!),
+                  currentAccountPicture: const CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Icon(Icons.person,color: Colors.black,),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: drawerData.length,
+                      itemBuilder: (context,index){
+                        return ListTile(
+                          onTap: ()
+                          {
+                            Navigator.pushNamed(context, drawerData[index]['routeName']);
+                          },
+                          leading: Text(drawerData[index]['title']),
+                          trailing: Icon(drawerData[index]['iconData']),
+                        );
+                      }
+                  ),
+                )
+              ],
+            );
+          }
         )
     );
   }

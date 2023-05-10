@@ -8,6 +8,10 @@ class UserModel {
   String? college;
   int? phone;
   bool? isALeader;
+  String? idForClubLead;
+  String? membershipStartDate;
+  int? volunteerHoursNumber;
+  String? committeeName;
 
   UserModel.fromJson({required Map<String,dynamic> json}){
     name = json['name'];
@@ -19,5 +23,9 @@ class UserModel {
     college = json['college'];
     phone = json['phone'];
     isALeader = json['isALeader'];
+    idForClubLead = json['idForClubLead'];
+    membershipStartDate = json['membershipStartDate'];
+    committeeName = json['committeeName'];
+    volunteerHoursNumber = json['volunteerHoursNumber'];
   }
 }

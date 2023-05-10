@@ -24,7 +24,7 @@ class DashboardRepository{
   Future<void> createClub({required String name,required String college}) async {
     int lastIdForClubCreated = await getIdForLastClubCreated();
     lastIdForClubCreated++;  // lastIdForClubCreated = lastIdForClubCreated + 1 ;
-    ClubModel model = ClubModel(description:"",name: name,id: lastIdForClubCreated, image: "", college: college, leaderEmail: "", leaderID: "", committees: [], contactAccounts: "", leaderName: "", memberNum: 0);
+    ClubModel model = ClubModel(name: name,id: lastIdForClubCreated, college: college);
     await FirebaseFirestore.instance.collection(Constants.kClubsCollectionName).doc(lastIdForClubCreated.toString()).set(model.toJson());
   }
 
@@ -67,7 +67,7 @@ class DashboardRepository{
     // TODO: Update LeaderInfo on FireStore | isLeader = true as he became a Leader
     await FirebaseFirestore.instance.collection(Constants.kUsersCollectionName).doc(leaderID).update({
       'isALeader' : true,
-      'clubIDThatHeLead' : clubID,
+      'idForClubLead' : clubID,
     });
   }
 

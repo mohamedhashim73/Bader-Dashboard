@@ -55,12 +55,12 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
 
   List<CategoryModel> adminCategories =
   [
-    CategoryModel(title: "انشاء نادي", iconData: Icons.add,routeName: "create_Club"),
-    CategoryModel(title: "حذف نادي", iconData: Icons.clear,routeName: "delete_Club"),
-    // CategoryModel(title: "الأندية", iconData: Icons.slideshow_sharp,routeName: "view_Clubs"),
-    CategoryModel(title: "عرض التقارير", iconData: Icons.display_settings,routeName: "view_Reports"),
+    CategoryModel(title: "الأندية", iconData: Icons.slideshow_sharp,routeName: "view_Clubs"),
     CategoryModel(title: "تعيين قائد", iconData: Icons.select_all,routeName: "assign_Club_Leader"),
+    CategoryModel(title: "عرض التقارير", iconData: Icons.display_settings,routeName: "view_Reports"),
+    CategoryModel(title: "انشاء نادي", iconData: Icons.add,routeName: "create_Club"),
     CategoryModel(title: "مراجعة التقارير", iconData: Icons.preview,routeName: "review_Reports"),
+    CategoryModel(title: "حذف نادي", iconData: Icons.clear,routeName: "delete_Club"),
   ];
 
   // TODO: Get ALl Users to choose between them on select Leader ( Related to : Assign Leader to Club Screen )
@@ -99,7 +99,7 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
     clubsWithoutLeaderData.clear();
     for( int count = 0 ; count < clubs.length ; count++ )
     {
-      if( clubs[count].leaderID!.isEmpty )
+      if( clubs[count].leaderID == null )
         {
           clubsWithoutLeaderData.add(clubs[count]);
         }

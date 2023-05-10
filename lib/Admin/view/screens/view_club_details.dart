@@ -59,7 +59,7 @@ Widget _clubDetailsBody({required ClubModel model,required bool isMobile}){
     physics: isMobile ? const BouncingScrollPhysics() : const NeverScrollableScrollPhysics(),
     children:
     [
-      model.image!.isNotEmpty ?
+      model.image != null ?
       Center(child: Image.network(model.image!,fit: BoxFit.cover)) :
       Container(
         padding: EdgeInsets.symmetric(vertical: isMobile ? 5.h : 10.h,horizontal: isMobile ? 5.w : 10.w),
@@ -83,7 +83,7 @@ Widget _clubDetailsBody({required ClubModel model,required bool isMobile}){
       ),
       SizedBox(height: 20.h,),
       Center(child: ResponsiveText(child: Text(model.name!,style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: isMobile? 18.sp: 22.sp),textAlign: TextAlign.center,))),
-      if( model.description!.isNotEmpty )
+      if( model.description != null )
         Center(
             child: Text(model.description!,
               maxLines:3,textAlign:TextAlign.center,style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w500,fontSize: 14.sp),
@@ -95,7 +95,7 @@ Widget _clubDetailsBody({required ClubModel model,required bool isMobile}){
       _containerItem(
         isMobile: isMobile,
         child: Text(
-            model.leaderEmail!.isNotEmpty ? model.leaderName! : "لم يتم تعيين قائد حتي الآن"
+            model.leaderEmail != null ? model.leaderName! : "لم يتم تعيين قائد حتي الآن"
         ),
       ),
       SizedBox(height: 12.h,),
@@ -113,7 +113,7 @@ Widget _clubDetailsBody({required ClubModel model,required bool isMobile}){
       _containerItem(
         isMobile: isMobile,
         child: Text(
-            model.memberNum != 0 ? model.memberNum.toString() : "لم يتم تحديد عدد الأعضاء حتي الآن"
+            model.memberNum != null ? model.memberNum.toString() : "لم يتم تحديد عدد الأعضاء حتي الآن"
         ),
       ),
       SizedBox(height: 12.h,),
@@ -122,7 +122,7 @@ Widget _clubDetailsBody({required ClubModel model,required bool isMobile}){
       _containerItem(
         isMobile: isMobile,
         child: Text(
-            model.committees!.isNotEmpty ? model.committees!.join(" - ") : "لم يتم تحديد اللجان حتي الآن"
+            model.committees != null ? model.committees!.join(" - ") : "لم يتم تحديد اللجان حتي الآن"
         ),
       ),
       SizedBox(height: 12.h,),
@@ -131,7 +131,7 @@ Widget _clubDetailsBody({required ClubModel model,required bool isMobile}){
       _containerItem(
         isMobile: isMobile,
         child: Text(
-            model.contactAccounts!.isNotEmpty ? model.contactAccounts! : "لم يتم تحديد وسيلة للتواصل حتي الآن"
+            model.contactAccounts != null ? model.contactAccounts!.phone! : "لم يتم تحديد وسيلة للتواصل حتي الآن"
         ),
       ),
     ],

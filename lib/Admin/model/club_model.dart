@@ -9,9 +9,9 @@ class ClubModel{
   String? college;
   List? committees;
   int? memberNum;
-  String? contactAccounts;  // Todo: Mean Leader Gmail
+  ContactMeansForClubModel? contactAccounts;  // Todo: Mean Leader Gmail
 
-  ClubModel({required this.committees,required this.description,required this.id,required this.memberNum,required this.contactAccounts,required this.leaderName,required this.name,required this.image,required this.college,required this.leaderEmail,required this.leaderID});
+  ClubModel({required this.id,required this.college,required this.name});
 
   ClubModel.fromJson({required Map<String,dynamic> json}){
     name = json['name'];
@@ -24,22 +24,39 @@ class ClubModel{
     leaderName = json['leaderName'];
     committees = json['committees'];
     memberNum = json['memberNum'];
-    contactAccounts = json['contactAccounts'];
+    contactAccounts = json['contactAccounts'] != null ? ContactMeansForClubModel.fromJson(json: json['contactAccounts']) : null;
   }
 
+  // انا بعت داتا ب null لان اللي هيبقي يسند لهم قيمه هو الليدر
   Map<String,dynamic> toJson(){
     return {
       'name' : name,
       'id' : id,
-      'description' : description,
-      'image' : image,
-      'leaderEmail' : leaderEmail,
-      'leaderID' : leaderID,
+      'description' : null,
+      'image' : null,
+      'leaderEmail' : null,
+      'leaderID' : null,
       'college' : college,
-      'leaderName' : leaderName,
-      'committees' : committees,
-      'memberNum' : memberNum,
-      'contactAccounts' : contactAccounts,
+      'leaderName' : null,
+      'committees' : null,
+      'memberNum' : null,
+      'contactAccounts' : null,
     };
   }
+}
+
+class ContactMeansForClubModel{
+  String? phone;
+  String? twitter;
+  ContactMeansForClubModel({required this.phone, required this.twitter});
+
+  factory ContactMeansForClubModel.fromJson({required Map<String,dynamic> json}) => ContactMeansForClubModel(phone: json['phone'], twitter: json['twitter']);
+
+  Map<String,dynamic> toJson(){
+    return {
+      'phone' : phone,
+      'twitter' : twitter,
+    };
+  }
+
 }

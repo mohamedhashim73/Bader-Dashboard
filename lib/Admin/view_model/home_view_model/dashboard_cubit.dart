@@ -81,7 +81,6 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
   }
 
   void openPdf({required String link}) async {
-    Uri uriLink = Uri.parse(link);
     if ( await canLaunch(link) )
     {
       await launch(link);

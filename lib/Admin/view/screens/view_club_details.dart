@@ -130,7 +130,7 @@ Widget _clubDetailsBody({required ClubModel model,required bool isMobile}){
       _containerItem(
         isMobile: isMobile,
         child: Text(
-            model.contactAccounts != null ? model.contactAccounts!.phone! : "لم يتم تحديد وسيلة للتواصل حتي الآن"
+            model.contactAccounts != null ? model.contactAccounts!.email! : "لم يتم تحديد وسيلة للتواصل حتي الآن"
         ),
       ),
     ],

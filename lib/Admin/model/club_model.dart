@@ -10,6 +10,7 @@ class ClubModel{
   List? committees;
   int? memberNum;
   int? volunteerHours;
+  int? currentEventsNum;
   int? numOfRegisteredMembers;
   List? availableOnlyForThisCollege;
   bool? isAvailable;
@@ -30,6 +31,7 @@ class ClubModel{
     leaderName = json['leaderName'];
     committees = json['committees'];
     volunteerHours = json['volunteerHours'];
+    currentEventsNum = json['currentEventsNum'];
     memberNum = json['memberNum'];
     numOfRegisteredMembers = json['numOfRegisteredMembers'];
     contactAccounts = json['contactAccounts'] != null ? ContactMeansForClubModel.fromJson(json: json['contactAccounts']) : null;
@@ -47,6 +49,7 @@ class ClubModel{
       'leaderEmail' : null,
       'leaderID' : null,
       'volunteerHours' : null,
+      'currentEventsNum' : null,
       'college' : college,
       'leaderName' : null,
       'committees' : null,
@@ -58,15 +61,15 @@ class ClubModel{
 }
 
 class ContactMeansForClubModel{
-  String? phone;
+  String? email;
   String? twitter;
-  ContactMeansForClubModel({required this.phone, required this.twitter});
+  ContactMeansForClubModel({required this.email, required this.twitter});
 
-  factory ContactMeansForClubModel.fromJson({required Map<String,dynamic> json}) => ContactMeansForClubModel(phone: json['phone'], twitter: json['twitter']);
+  factory ContactMeansForClubModel.fromJson({required Map<String,dynamic> json}) => ContactMeansForClubModel(email: json['email'], twitter: json['twitter']);
 
   Map<String,dynamic> toJson(){
     return {
-      'phone' : phone,
+      'email' : email,
       'twitter' : twitter,
     };
   }

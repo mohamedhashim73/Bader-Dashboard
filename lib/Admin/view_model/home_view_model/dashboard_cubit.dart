@@ -80,6 +80,15 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
     });
   }
 
+  List<String> clubsNames = [];
+  Future<void> getNamesForAllClubs() async {
+    clubsNames.clear();
+    for( var club in clubs )
+      {
+        clubsNames.add(club.name!.trim());
+      }
+  }
+
   void openPdf({required String link}) async {
     if ( await canLaunch(link) )
     {
@@ -187,6 +196,7 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
   // Todo: Get Clubs Info
   List<ClubModel> clubs = [];
   Future<void> getAllClubs() async {
+    await getNamesForAllClubs();      // TODO: عشان مخليش الادمن ينشأ نادي ب اسم موجود بالفعل
     emit(GetClubsLoadingState());
     try
     {

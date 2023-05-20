@@ -15,6 +15,7 @@ class CreateClubScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     final cubit = DashBoardCubit.getInstance(context);
+    if( cubit.clubsNames.isEmpty ) cubit.getNamesForAllClubs();
     return Directionality(
       textDirection: TextDirection.rtl,
       child: BlocConsumer<DashBoardCubit,DashBoardStates>(
@@ -82,7 +83,18 @@ class CreateClubScreen extends StatelessWidget{
                       padding: EdgeInsets.symmetric(vertical: 12.h),
                       onPressed: ()
                       {
-                        cubit.createClub(name: clubName.text.trim(), college: cubit.selectedCollege!);
+                        if( cubit.clubsNames.contains(clubName.text.trim()) == false )
+                          {
+                            cubit.createClub(name: clubName.text.trim(), college: cubit.selectedCollege!);
+                          }
+                        else if ( clubName.text.isEmpty || cubit.selectedCollege == null )
+                          {
+                            showSnackBar(context: context, message: "برجاء إدخال البيانات كامله !!",backgroundColor: Colors.red);
+                          }
+                        else if ( cubit.clubsNames.contains(clubName.text.trim()) == true )
+                          {
+                            showSnackBar(context: context, message: "برجاء اختيار اسم أخر للنادي لأن يوجد بالفعل نادي بهذا الإسم",backgroundColor: Colors.red);
+                          }
                       },
                       minWidth: double.infinity,
                       child: Text(state is CreateClubLoadingState? "انتظر لثواني" : "إنشاء",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18.5.sp),)

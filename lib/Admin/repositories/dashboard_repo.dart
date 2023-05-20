@@ -1,8 +1,8 @@
 import 'package:badir_app/Admin/model/event_model.dart';
-import 'package:badir_app/shared/components/constants.dart';
+import 'package:badir_app/shared/Constants/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/club_model.dart';
-import '../model/file_model.dart';
+import '../model/report_model.dart';
 
 class DashboardRepository{
 
@@ -41,6 +41,18 @@ class DashboardRepository{
       }
     });
     return clubs;
+  }
+
+  // Three reports => "خطة سنوية","فعالية","ساعات تطوعية"
+  Future<List<ReportModel>> getAllReports() async {
+    List<ReportModel> reports = [];
+    await FirebaseFirestore.instance.collection(Constants.kReportsCollectionName).get().then((value){
+      for( var item in value.docs )
+      {
+        reports.add(ReportModel.fromJson(json: item.data()));
+      }
+    });
+    return reports;
   }
 
   Future<List<ReportModel>> getReports() async {

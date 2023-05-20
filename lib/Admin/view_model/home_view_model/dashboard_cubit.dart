@@ -2,14 +2,14 @@ import 'dart:io';
 import 'package:badir_app/Admin/model/event_model.dart';
 import 'package:badir_app/Admin/model/notification_model.dart';
 import 'package:badir_app/Admin/repositories/dashboard_repo.dart';
-import 'package:badir_app/shared/components/constants.dart';
-import 'package:badir_app/shared/components/enumeration.dart';
+import 'package:badir_app/shared/Constants/constants.dart';
+import 'package:badir_app/shared/Constants/enumeration.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../model/admin_category_model.dart';
 import '../../model/club_model.dart';
-import '../../model/file_model.dart';
+import '../../model/report_model.dart';
 import '../../model/user_model.dart';
 import 'dashboard_states.dart';
 import 'package:flutter/material.dart';
@@ -23,14 +23,12 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
 
   // TODO : SEND A NOTIFICATION TO USER AFTER MAKE HIM A LEADER ON SPECIFIC CLUB
   Future<bool> sendNotifyToUserAfterMakingHimALeaderOnSpecificClub({required String receiverID,required String clubID,required String clubName}) async {
-    String? adminUid = FirebaseAuth.instance.currentUser!.uid;
     final model = NotifyModel(
-        notifyDate: Constants.getTimeNow(),
+        receiveDate: Constants.getTimeNow(),
         clubID: clubID,
-        notifyMessage: 'لقد تم تعيينك ك أدمن ل $clubName',
+        notifyMessage: 'لقد تم تعيينك ك أدمن لنادي $clubName',
         fromAdmin: true,
-        senderID: adminUid,
-        notifyType: NotificationType.adminAskYouToBeALeaderOnClubThatHeSpecified.name
+        notifyType: NotificationType.adminMakesYouALeaderOnSpecificClub.name
     );
     try
     {
@@ -51,7 +49,7 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
   }
 
   // ده هتتعرض في dropDownButton عند انشاء نادي
-  List<String> colleges = ["كليه حاسبات ومعلومات","كليه هندسه","كليه صيدله","كليه تمريض","كليه طب","كليه تربيه رياضيه"];
+  List<String> colleges = ["كلية علوم وهندسة الحاسب الآلي","كلية الآداب والعلوم الإنسانية","كلية إدارة الأعمال","كلية التربية","كلية التمريض","الكلية التطبيقية","كلية الحقوق","كلية الصيدلة","كلية الطب","كلية طب الأسنان","كلية العلوم","كلية علوم الأسرة","كلية علوم التأهيل الطبي","كلية العلوم الطبية التطبيقية","كلية الهندسة"];
 
   List<CategoryModel> adminCategories =
   [
@@ -191,6 +189,32 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
     }
   }
 
+  List<ReportModel> reports = [];   // ده التقارير بس مش من ضمنها الخطط السنوية
+  List<ReportModel> annualPlansReports = [];
+  Future<void> getAllReports() async {
+    emit(GetReportsLoadingState());
+    try
+    {
+      List<ReportModel> allReports = await dashboardRepository.getAllReports();
+      for( var item in allReports )
+        {
+          if( item.reportType!.trim() == "خطة سنوية")
+            {
+              annualPlansReports.add(item);
+            }
+          else
+            {
+              reports.add(item);
+            }
+        }
+      emit(GetReportsSuccessState());
+    }
+    on FirebaseException catch(e)
+    {
+      emit(FailedToGetReportsState());
+    }
+  }
+
   // Todo: Get Events Info
   List<EventModel> events = [];
   Future<void> getEvents() async {
@@ -203,21 +227,6 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
     {
       debugPrint("Failed To get Events, reason is : ${e.message}");
       emit(FailedToGetEventsState());
-    }
-  }
-
-  // Todo: Get Reports to Display on ReportsView Screen
-  List<ReportModel> reports = [];
-  Future<void> getReports() async {
-    emit(GetReportsLoadingState());
-    try {
-      reports = await dashboardRepository.getReports();
-      emit(GetReportsSuccessState());
-    }
-    on FirebaseException catch(e)
-    {
-      debugPrint("Failed To get Reports, reason is : ${e.message}");
-      emit(FailedToGetReportsState());
     }
   }
 

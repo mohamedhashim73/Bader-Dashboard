@@ -1,4 +1,4 @@
-import 'package:badir_app/Admin/model/file_model.dart';
+import 'package:badir_app/Admin/model/report_model.dart';
 import 'package:badir_app/shared/components/colors.dart';
 import 'package:badir_app/Admin/view/screens/view_report_details.dart';
 import 'package:badir_app/Admin/view_model/home_view_model/dashboard_states.dart';
@@ -15,6 +15,7 @@ class ReviewReportsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = DashBoardCubit.getInstance(context);
+    if( cubit.reports.isEmpty ) cubit.getAllReports();
     return Directionality(
         textDirection: TextDirection.rtl,
         child: BlocConsumer<DashBoardCubit,DashBoardStates>(
@@ -25,13 +26,13 @@ class ReviewReportsScreen extends StatelessWidget {
                 appBar: AppBar(title: const Text("مراجعة التقارير")),
                 body: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 12.h),
-                    child: cubit.reports.isNotEmpty ?
+                    child: cubit.annualPlansReports.isNotEmpty ?
                     ListView.builder(
-                        itemCount: cubit.reports.length,
+                        itemCount: cubit.annualPlansReports.length,
                         shrinkWrap: true,
                         itemBuilder: (context,index){
                           return _reportItem(
-                              model: cubit.reports[index],
+                              model: cubit.annualPlansReports[index],
                               context: context,
                               cubit: cubit,
                               listViewIndex: index
@@ -39,7 +40,7 @@ class ReviewReportsScreen extends StatelessWidget {
                         }
                     ) :
                     Center(
-                      child: Text("لم يتم اضافه تقارير حتي الآن",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.sp,color: Colors.grey),),
+                      child: Text("لم يتم اضافه خطط سنوية حتي الآن",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17.sp,color: Colors.grey),),
                     )
                 )
             );
@@ -58,7 +59,7 @@ Widget _reportItem({required ReportModel model,required BuildContext context,req
     ),
     child: ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: FittedBox(fit:BoxFit.scaleDown,child: Text("${model.clubName!} - ${model.title!}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16.5.sp),)),
+      leading: Text("${model.clubName!} - ${model.pdfLink!}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16.5.sp,overflow: TextOverflow.ellipsis),),
       trailing: Row(
         children:
         [

@@ -11,7 +11,8 @@ class UserModel {
   String? idForClubLead;
   String? membershipStartDate;
   int? volunteerHoursNumber;
-  String? committeeName;
+  List? committeesNames;
+  List? idForClubsMemberIn;
 
   UserModel.fromJson({required Map<String,dynamic> json}){
     name = json['name'];
@@ -25,7 +26,7 @@ class UserModel {
     isALeader = json['isALeader'];
     idForClubLead = json['idForClubLead'];
     membershipStartDate = json['membershipStartDate'];
-    committeeName = json['committeeName'];
+    committeesNames = json['committeesNames'];
     volunteerHoursNumber = json['volunteerHoursNumber'];
   }
 }

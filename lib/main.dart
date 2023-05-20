@@ -10,7 +10,7 @@ import 'package:badir_app/Admin/view/screens/login_screen.dart';
 import 'package:badir_app/Admin/view/screens/view_clubs_screen.dart';
 import 'package:badir_app/Admin/view_model/auth_view_model/auth_cubit.dart';
 import 'package:badir_app/Admin/view_model/home_view_model/dashboard_cubit.dart';
-import 'package:badir_app/shared/components/constants.dart';
+import 'package:badir_app/shared/Constants/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
           providers:
           [
             BlocProvider(create: (context) => AuthCubit(authRepository: AuthRepository()..getAdminData())),
-            BlocProvider(create: (context) => DashBoardCubit(dashboardRepository: DashboardRepository())..getAllClubs()..getEvents())
+            BlocProvider(create: (context) => DashBoardCubit(dashboardRepository: DashboardRepository())..getAllClubs()..getAllReports()..getEvents())
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,

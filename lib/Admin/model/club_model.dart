@@ -9,6 +9,10 @@ class ClubModel{
   String? college;
   List? committees;
   int? memberNum;
+  int? volunteerHours;
+  int? numOfRegisteredMembers;
+  List? availableOnlyForThisCollege;
+  bool? isAvailable;
   ContactMeansForClubModel? contactAccounts;  // Todo: Mean Leader Gmail
 
   ClubModel({required this.id,required this.college,required this.name});
@@ -17,13 +21,17 @@ class ClubModel{
     name = json['name'];
     id = json['id'];
     image = json['image'];
+    availableOnlyForThisCollege = json['availableOnlyForThisCollege'];
+    isAvailable = json['isAvailable'];
     description = json['description'];
     leaderEmail = json['leaderEmail'];
     leaderID = json['leaderID'];
     college = json['college'];
     leaderName = json['leaderName'];
     committees = json['committees'];
+    volunteerHours = json['volunteerHours'];
     memberNum = json['memberNum'];
+    numOfRegisteredMembers = json['numOfRegisteredMembers'];
     contactAccounts = json['contactAccounts'] != null ? ContactMeansForClubModel.fromJson(json: json['contactAccounts']) : null;
   }
 
@@ -32,14 +40,18 @@ class ClubModel{
     return {
       'name' : name,
       'id' : id,
+      'isAvailable' : true,
+      'availableOnlyForThisCollege' : [],
       'description' : null,
       'image' : null,
       'leaderEmail' : null,
       'leaderID' : null,
+      'volunteerHours' : null,
       'college' : college,
       'leaderName' : null,
       'committees' : null,
       'memberNum' : null,
+      'numOfRegisteredMembers' : null,
       'contactAccounts' : null,
     };
   }

@@ -1,6 +1,6 @@
 import 'package:badir_app/Admin/model/admin_category_model.dart';
 import 'package:badir_app/Admin/model/club_model.dart';
-import 'package:badir_app/Admin/model/file_model.dart';
+import 'package:badir_app/Admin/model/report_model.dart';
 import 'package:badir_app/shared/components/colors.dart';
 import 'package:badir_app/Admin/view/screens/view_club_details.dart';
 import 'package:badir_app/Admin/view/screens/view_report_details.dart';
@@ -17,6 +17,7 @@ class ViewReportsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = DashBoardCubit.getInstance(context);
+    if( cubit.reports.isEmpty ) cubit.getAllReports();
     return Directionality(
         textDirection: TextDirection.rtl,
         child: BlocConsumer<DashBoardCubit,DashBoardStates>(
@@ -60,7 +61,7 @@ Widget _reportItem({required ReportModel model,required BuildContext context}){
     ),
     child: ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: FittedBox(fit:BoxFit.scaleDown,child: Text("${model.clubName!} - ${model.title!}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16.5.sp),)),
+      leading: Text("${model.clubName!} - ${model.pdfLink!}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16.5.sp,overflow: TextOverflow.ellipsis),),
       trailing: MaterialButton(
         onPressed: ()
         {

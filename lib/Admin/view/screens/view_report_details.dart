@@ -1,5 +1,5 @@
 import 'package:badir_app/Admin/model/club_model.dart';
-import 'package:badir_app/Admin/model/file_model.dart';
+import 'package:badir_app/Admin/model/report_model.dart';
 import 'package:badir_app/shared/components/colors.dart';
 import 'package:badir_app/Admin/view/widgets/drawer_item.dart';
 import 'package:badir_app/Admin/view_model/home_view_model/dashboard_states.dart';

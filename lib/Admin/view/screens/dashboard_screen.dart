@@ -23,7 +23,7 @@ class DashboardScreen extends StatelessWidget {
               appBar: AppBar(title: const Text("بادر"),),
               body: isMobile?
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 5.h),
+                    padding: EdgeInsets.symmetric(horizontal: 15.w,vertical: 5.h),
                     child: _dashboardBody(cubit: cubit,isMobile: isMobile),
                   ) :
                   Padding(
@@ -65,8 +65,8 @@ Widget _dashboardBody({required DashBoardCubit cubit,required bool isMobile}){
               physics: const BouncingScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: isMobile? 2 : 3,
-                  mainAxisSpacing: isMobile ? 15.h : 30.h,
-                  crossAxisSpacing: 15.w,
+                  mainAxisSpacing: isMobile ? 20.h : 30.h,
+                  crossAxisSpacing: isMobile ? 20.w : 15.w,
                   childAspectRatio: isMobile? 1 : 1.2
               ),
               itemBuilder: (context,index){

@@ -37,7 +37,6 @@ class AssignClubLeaderScreen extends StatelessWidget{
           },
           builder: (context,state) {
             return Scaffold(
-              drawer: DrawerItem(),
               appBar: AppBar(title: const Text("تعيين قائد")),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.5.w,vertical: 20.h),

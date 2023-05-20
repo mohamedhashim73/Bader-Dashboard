@@ -4,6 +4,7 @@ class Constants{
   static String kNotificationsCollectionName = "Notifications";
   static String kUsersCollectionName = "Users";
   static String kClubsCollectionName = "Clubs";
+  static String kAcceptedAnnualPlanForClubCollectionName = "Accepted Annual Plan";
   static String kMeetingsCollectionName = "Meetings";
   static String kMembershipRequestsCollectionName = "Membership Requests";
   static String kTaskAuthenticationRequestsCollectionName = "Tasks Authentication Requests";

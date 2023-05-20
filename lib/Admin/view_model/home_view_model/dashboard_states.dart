@@ -37,6 +37,13 @@ class GetClubsSuccessState extends DashBoardStates{}
 class GetClubsLoadingState extends DashBoardStates{}
 class FailedToGetClubsState extends DashBoardStates{}
 
+class AcceptOrRejectPlanForClubSuccessState extends DashBoardStates{}
+class AcceptOrRejectPlanForClubLoadingState extends DashBoardStates{}
+class FailedToAcceptOrRejectPlanForClubState extends DashBoardStates{
+  String message;
+  FailedToAcceptOrRejectPlanForClubState({required this.message});
+}
+
 // Todo: Events
 class GetEventsSuccessState extends DashBoardStates{}
 class GetEventsLoadingState extends DashBoardStates{}
@@ -45,4 +52,9 @@ class FailedToGetEventsState extends DashBoardStates{}
 class GetReportsSuccessState extends DashBoardStates{}
 class GetReportsLoadingState extends DashBoardStates{}
 class FailedToGetReportsState extends DashBoardStates{}
+
+class ErrorDuringOpenPdfState extends DashBoardStates{
+  String message;
+  ErrorDuringOpenPdfState({required this.message});
+}
 

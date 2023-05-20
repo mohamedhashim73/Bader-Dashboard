@@ -1,10 +1,8 @@
 import 'package:badir_app/Admin/model/admin_category_model.dart';
 import 'package:badir_app/Admin/model/club_model.dart';
 import 'package:badir_app/Admin/model/report_model.dart';
+import 'package:badir_app/shared/Constants/constants.dart';
 import 'package:badir_app/shared/components/colors.dart';
-import 'package:badir_app/Admin/view/screens/view_club_details.dart';
-import 'package:badir_app/Admin/view/screens/view_report_details.dart';
-import 'package:badir_app/Admin/view/widgets/drawer_item.dart';
 import 'package:badir_app/Admin/view_model/home_view_model/dashboard_states.dart';
 import 'package:badir_app/Admin/view_model/home_view_model/dashboard_cubit.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +14,7 @@ class ViewReportsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isMobile = MediaQuery.of(context).size.width < 600;
     final cubit = DashBoardCubit.getInstance(context);
     if( cubit.reports.isEmpty ) cubit.getAllReports();
     return Directionality(
@@ -24,22 +23,16 @@ class ViewReportsScreen extends StatelessWidget {
           listener: (context,state){},
           builder: (context,state){
             return Scaffold(
-                drawer: DrawerItem(),
                 appBar: AppBar(title: const Text("عرض التقارير")),
                 body: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 12.h),
                     child: cubit.reports.isNotEmpty ?
-                    ListView.builder(
+                    ListView.separated(
+                        separatorBuilder: (context,index) => SizedBox(height: 10.h,),
                         itemCount: cubit.reports.length,
                         shrinkWrap: true,
                         itemBuilder: (context,index){
-                          return GestureDetector(
-                              onTap: ()
-                              {
-                                _openReportPdf(context: context, model: cubit.reports[index]);
-                              },
-                              child: _reportItem(model: cubit.reports[index],context: context)
-                          );
+                          return _reportItem(isMobile:isMobile,model: cubit.reports[index],context: context);
                         }
                     ) :
                     Center(
@@ -53,29 +46,31 @@ class ViewReportsScreen extends StatelessWidget {
   }
 }
 
-Widget _reportItem({required ReportModel model,required BuildContext context}){
+Widget _reportItem({required bool isMobile,required ReportModel model,required BuildContext context}){
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 10.h),
+    padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 15.h),
     decoration: const BoxDecoration(
         color: greyColor
     ),
-    child: ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: Text("${model.clubName!} - ${model.pdfLink!}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16.5.sp,overflow: TextOverflow.ellipsis),),
-      trailing: MaterialButton(
-        onPressed: ()
-        {
-          // Display Report's Pdf ( Nav to This Page )
-          _openReportPdf(context: context, model: model);
-        },
-        textColor: Colors.white,
-        color: mainColor,
-        child: Text("عرض",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold),),
-      ),
-    ),
+    child: Row(
+      children:
+      [
+        Expanded(
+          child: Text("${model.clubName!} - ${model.reportType == "فعالية" ? "خاص بفعالية" : "ساعات تطوعية"}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: isMobile ? 14.5.sp : 16.5.sp,overflow: TextOverflow.ellipsis),),
+        ),
+        SizedBox(width: 10.w,),
+        MaterialButton(
+          onPressed: ()
+          {
+            DashBoardCubit.getInstance(context).openPdf(link: model.pdfLink!);
+          },
+          textColor: Colors.white,
+          color: mainColor,
+          elevation: 0,
+          child: Text("عرض",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold),),
+        ),
+      ],
+    )
   );
 }
 
-void _openReportPdf({required BuildContext context,required ReportModel model}){
-  Navigator.push(context, MaterialPageRoute(builder: (context) => ViewReportDetails(model: model)));
-}

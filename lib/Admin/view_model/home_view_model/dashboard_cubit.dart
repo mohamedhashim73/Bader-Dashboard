@@ -7,6 +7,7 @@ import 'package:badir_app/shared/Constants/enumeration.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../model/admin_category_model.dart';
 import '../../model/club_model.dart';
 import '../../model/report_model.dart';
@@ -77,6 +78,18 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
       debugPrint("Users number is : ${usersThatAreNotLeadersData.length}");
       emit(GetUsersDataSuccessState());
     });
+  }
+
+  void openPdf({required String link}) async {
+    Uri uriLink = Uri.parse(link);
+    if ( await canLaunch(link) )
+    {
+      await launch(link);
+    }
+    else
+    {
+      emit(ErrorDuringOpenPdfState(message: "حدث خطأ ما عند محاوله فتح اللينك، برجاء المحاوله لاحقا"));
+    }
   }
 
   // Todo: ده هستدعيها اما الادمن يضغط علي تعيين القائد في الاخر بعد اما اختار البريد تبع القائد من خلال dropDownButton ( Related to : Assign Leader to Club Screen )
@@ -189,9 +202,25 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
     }
   }
 
+  Future<void> acceptOrRejectPlanForClub({required ReportModel report,required bool responseStatus}) async {
+    emit(AcceptOrRejectPlanForClubLoadingState());
+    try
+    {
+      await dashboardRepository.acceptOrRejectPlanForClub(report: report, responseStatus: responseStatus);
+      await getAllReports();
+      emit(AcceptOrRejectPlanForClubSuccessState());
+    }
+    on FirebaseException catch(e)
+    {
+      emit(FailedToAcceptOrRejectPlanForClubState(message: e.message ?? e.code));
+    }
+  }
+
   List<ReportModel> reports = [];   // ده التقارير بس مش من ضمنها الخطط السنوية
   List<ReportModel> annualPlansReports = [];
   Future<void> getAllReports() async {
+    reports.clear();
+    annualPlansReports.clear();
     emit(GetReportsLoadingState());
     try
     {

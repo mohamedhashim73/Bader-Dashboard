@@ -18,7 +18,6 @@ class ViewReportDetails extends StatelessWidget {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            drawer: DrawerItem(),
             appBar: AppBar(title: const Text("التفاصيل")),
             body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 12.h),

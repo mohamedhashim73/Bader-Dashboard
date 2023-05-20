@@ -28,7 +28,6 @@ class ViewClubsScreen extends StatelessWidget {
           },
           builder: (context,state){
             return Scaffold(
-                drawer: DrawerItem(),
                 appBar: AppBar(title: const Text("الأندية")),
                 body: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: isMobile? 10.h : 15.h),

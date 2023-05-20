@@ -19,7 +19,6 @@ class ViewEventDetails extends StatelessWidget {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            drawer: DrawerItem(),
             appBar: AppBar(title: const Text("تفاصيل الفعالية")),
             body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 12.h),

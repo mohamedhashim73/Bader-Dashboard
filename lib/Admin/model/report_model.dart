@@ -15,4 +15,15 @@ class ReportModel{
     pdfLink = json['pdfLink'];
   }
 
+  Map<String,dynamic> toJson(){
+    return {
+      'reportID' : reportID,
+      'reportType' : reportType,
+      'clubID' : clubID,
+      'clubName' : clubName,
+      'senderID' : senderID,
+      'pdfLink' : pdfLink,
+    };
+  }
+
 }

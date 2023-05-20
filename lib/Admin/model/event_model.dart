@@ -6,7 +6,7 @@ class EventModel{
   String? startDate;
   String? endDate;
   String? time;
-  bool? forPublic;
+  String? forPublic;
   String? location;
   String? link;
   List? speakers;
@@ -29,19 +29,4 @@ class EventModel{
     clubName = json['clubName'];
   }
 
-  Map<String,dynamic> toJson(){
-    return {
-      'name' : name,
-      'id' : id,
-      'image' : image,
-      'forPublic' : forPublic,
-      'startDate' : startDate,
-      'endDate' : endDate,
-      'time' : time,
-      'location' : location,
-      'speakers' : speakers,
-      'clubID' : clubID,
-      'clubName' : clubName,
-    };
-  }
 }

@@ -5,9 +5,7 @@ import 'package:badir_app/Admin/view_model/home_view_model/dashboard_cubit.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../widgets/display_dialogs.dart';
-import '../widgets/drawer_item.dart';
 
 class DeleteClubScreen extends StatelessWidget {
   const DeleteClubScreen({Key? key}) : super(key: key);
@@ -27,7 +25,6 @@ class DeleteClubScreen extends StatelessWidget {
           },
           builder: (context,state){
             return Scaffold(
-                drawer: DrawerItem(),
                 appBar: AppBar(title: const Text("حذف نادي")),
                 body: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 15.h),
@@ -56,7 +53,7 @@ class DeleteClubScreen extends StatelessWidget {
 
 Widget _clubItem({required ClubModel model,required DashBoardCubit cubit,required BuildContext context}){
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 15.h),
+    padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 10.h),
     decoration: const BoxDecoration(
         color: greyColor
     ),
@@ -64,6 +61,7 @@ Widget _clubItem({required ClubModel model,required DashBoardCubit cubit,require
       contentPadding: EdgeInsets.zero,
       leading: FittedBox(fit:BoxFit.scaleDown,child: Text(model.name!,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16.5.sp),)),
       trailing: MaterialButton(
+        elevation: 0,
         onPressed: ()
         {
           showDialog(

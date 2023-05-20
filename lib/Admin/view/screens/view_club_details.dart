@@ -22,7 +22,6 @@ class ViewClubDetails extends StatelessWidget {
           listener: (context,state){},
           builder: (context,state){
             return Scaffold(
-                drawer: DrawerItem(),
                 appBar: AppBar(title: const Text("التفاصيل")),
                 body: Padding(
                       padding: EdgeInsets.symmetric(horizontal: isMobile? 12.w : 50.w,vertical: isMobile? 10.h : 25.h),

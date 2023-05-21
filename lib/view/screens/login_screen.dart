@@ -70,7 +70,7 @@ Widget _loginBody({required bool isMobile,required BuildContext context,required
     children:
     [
       if( !isMobile)
-        Image.asset("assets/images/admin_login_banner.png",height: 276.h,width:double.infinity,fit: BoxFit.fill,),
+        Image.asset("assets/images/admin_login_banner.jpg",height: 276.h,width:double.infinity,fit: BoxFit.fill,),
       if( !isMobile )
         SizedBox(height: 20.h,),
       Text("البريد الإلكتروني",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold),),

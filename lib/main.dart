@@ -28,11 +28,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  if( (Platform.isAndroid || Platform.isIOS) )
-    {
-      final sharedPref = await SharedPreferences.getInstance();
-      Constants.kAdminID = sharedPref.getString('adminID');
-    }
+  final sharedPref = await SharedPreferences.getInstance();
+  Constants.kAdminID = sharedPref.getString('adminID');
   runApp( const MyApp() );
 }
 
@@ -75,7 +72,7 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      child: (Platform.isAndroid || Platform.isIOS) && Constants.kAdminID != null ? const DashboardScreen() : LoginScreen()
+      child: Constants.kAdminID != null ? const DashboardScreen() : LoginScreen()
     );
   }
 }

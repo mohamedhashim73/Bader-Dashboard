@@ -71,7 +71,7 @@ class CreateClubScreen extends StatelessWidget{
                         {
                           cubit.chooseCollege(value: val!);
                         },
-                        items: cubit.colleges.map((e) => DropdownMenuItem(value: e,child: Text(e,textDirection: TextDirection.rtl,),)).toList(),
+                        items: cubit.colleges.map((e) => DropdownMenuItem(value:e,child: Directionality(textDirection:TextDirection.rtl,child: Align(alignment:AlignmentDirectional.centerStart,child: Text(e),)))).toList(),
                       ),
                     ),
                   ),

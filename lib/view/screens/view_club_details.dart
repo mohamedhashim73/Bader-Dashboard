@@ -22,7 +22,7 @@ class ViewClubDetails extends StatelessWidget {
           listener: (context,state){},
           builder: (context,state){
             return Scaffold(
-                appBar: AppBar(title: const Text("التفاصيل")),
+                appBar: AppBar(title: const Text("بيانات النادي")),
                 body: Padding(
                       padding: EdgeInsets.symmetric(horizontal: isMobile? 12.w : 50.w,vertical: isMobile? 10.h : 25.h),
                       child: isMobile?
@@ -59,7 +59,10 @@ Widget _clubDetailsBody({required ClubModel model,required bool isMobile}){
     children:
     [
       model.image != null ?
-      Center(child: Image.network(model.image!,fit: BoxFit.cover)) :
+      Center(child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.w),
+        child: Image.network(model.image!,fit: BoxFit.cover),
+      )) :
       Container(
         padding: EdgeInsets.symmetric(vertical: isMobile ? 5.h : 10.h,horizontal: isMobile ? 5.w : 10.w),
         decoration: BoxDecoration(
@@ -90,63 +93,64 @@ Widget _clubDetailsBody({required ClubModel model,required bool isMobile}){
         ),
       SizedBox(height: 12.5.h,),
       Text("القائد",style: TextStyle(fontWeight: FontWeight.bold,fontSize: isMobile? 15.5.sp : 18.sp),),
-      SizedBox(height: 12.h,),
+      SizedBox(height: 2.5.h,),
       _containerItem(
         isMobile: isMobile,
-        child: Text(
-            model.leaderEmail != null ? model.leaderName! : "لم يتم تعيين قائد حتي الآن"
-        ),
+        text: model.leaderEmail != null ? model.leaderName! : "لم يتم تعيين قائد حتي الآن"
       ),
-      SizedBox(height: 12.h,),
+      SizedBox(height: 2.5.h,),
       Text("الكليه",style: TextStyle(fontWeight: FontWeight.bold,fontSize: isMobile? 16.sp : 18.sp),),
-      SizedBox(height: 12.h,),
+      SizedBox(height: 2.5.h,),
       _containerItem(
         isMobile: isMobile,
-        child: Text(
-            model.college!
-        ),
+        text: model.college!
       ),
-      SizedBox(height: 12.h,),
+      SizedBox(height: 2.5.h,),
       Text("عدد الأعضاء",style: TextStyle(fontWeight: FontWeight.bold,fontSize: isMobile? 16.sp : 18.sp),),
-      SizedBox(height: 12.h,),
+      SizedBox(height: 2.5.h,),
       _containerItem(
         isMobile: isMobile,
-        child: Text(
-            model.memberNum != null ? model.memberNum.toString() : "لم يتم تحديد عدد الأعضاء حتي الآن"
-        ),
+        text: model.memberNum != null ? model.memberNum.toString() : "لم يتم تحديد عدد الأعضاء حتي الآن"
       ),
-      SizedBox(height: 12.h,),
+      SizedBox(height: 2.5.h,),
       Text("اللجان",style: TextStyle(fontWeight: FontWeight.bold,fontSize: isMobile? 16.sp : 18.sp),),
-      SizedBox(height: 12.h,),
+      SizedBox(height: 2.5.h,),
       _containerItem(
         isMobile: isMobile,
-        child: Text(
-            model.committees != null ? model.committees!.join(" - ") : "لم يتم تحديد اللجان حتي الآن"
-        ),
+        text: model.committees != null ? model.committees!.join(" - ") : "لم يتم تحديد اللجان حتي الآن"
       ),
-      SizedBox(height: 12.h,),
-      Text("وسيلة التواصل",style: TextStyle(fontWeight: FontWeight.bold,fontSize: isMobile? 16.sp : 18.sp),),
-      SizedBox(height: 12.h,),
-      _containerItem(
-        isMobile: isMobile,
-        child: Text(
-            model.contactAccounts != null ? model.contactAccounts!.email! : "لم يتم تحديد وسيلة للتواصل حتي الآن"
-        ),
+      if( model.contactAccounts != null )
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children:
+        [
+          SizedBox(height: 2.5.h,),
+          Text("حساب الإيميل",style: TextStyle(fontWeight: FontWeight.bold,fontSize: isMobile? 16.sp : 18.sp),),
+          SizedBox(height: 2.5.h,),
+          _containerItem(
+              isMobile: isMobile,
+              text: model.contactAccounts!.email!
+          ),
+          SizedBox(height: 2.5.h,),
+          Text("حساب تويتر",style: TextStyle(fontWeight: FontWeight.bold,fontSize: isMobile? 16.sp : 18.sp),),
+          SizedBox(height: 2.5.h,),
+          _containerItem(
+              isMobile: isMobile,
+              text: model.contactAccounts!.twitter!
+          ),
+        ],
       ),
     ],
   );
 }
 
-Widget _containerItem({required Text child,required bool isMobile}){
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: isMobile? 10.w : 5.w),
-    height: 50.h,
-    alignment: AlignmentDirectional.centerStart,
-    decoration: BoxDecoration(
-        border: Border.all(color: Colors.black.withOpacity(0.5))
-    ),
-    width: double.infinity,
-    child: FittedBox(fit:BoxFit.scaleDown,child: child)
+Widget _containerItem({required String text,required bool isMobile}){
+  return Card(
+    elevation: 0.2,
+    child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: isMobile? 12.w : 10.w,vertical: 10.h),
+      child: Text(text,overflow:TextOverflow.ellipsis,textAlign: TextAlign.start,style: TextStyle(color: Colors.black.withOpacity(0.7)),),
+    )
   );
 }
 

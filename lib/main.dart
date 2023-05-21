@@ -1,5 +1,6 @@
 import 'package:badir_app/repositories/auth_repo.dart';
 import 'package:badir_app/repositories/dashboard_repo.dart';
+import 'package:badir_app/shared/Constants/constants.dart';
 import 'package:badir_app/shared/bloc_observer/bloc_observer.dart';
 import 'package:badir_app/shared/components/colors.dart';
 import 'package:badir_app/view/screens/assign_leader_screen.dart';
@@ -17,7 +18,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
+import 'dart:io';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,13 +28,12 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // if( Platform.isAndroid )
-  //   {
-  //     // لان لو ويب هخليه يبدأ علي طول من تسجيل الدخول
-  //     final sharedPref = await SharedPreferences.getInstance();
-  //     Constants.kAdminID = sharedPref.getString('adminID');
-  //   }
-  runApp( const MyApp());
+  if( (Platform.isAndroid || Platform.isIOS) )
+    {
+      final sharedPref = await SharedPreferences.getInstance();
+      Constants.kAdminID = sharedPref.getString('adminID');
+    }
+  runApp( const MyApp() );
 }
 
 class MyApp extends StatelessWidget {
@@ -73,8 +75,7 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      child: LoginScreen()
-      // (Platform.isAndroid || Platform.isIOS) && Constants.kAdminID != null ? const DashboardScreen() : LoginScreen()
+      child: (Platform.isAndroid || Platform.isIOS) && Constants.kAdminID != null ? const DashboardScreen() : LoginScreen()
     );
   }
 }

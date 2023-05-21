@@ -1,9 +1,9 @@
-import 'package:badir_app/Admin/view_model/auth_view_model/auth_cubit.dart';
-import 'package:badir_app/Admin/view_model/auth_view_model/auth_states.dart';
+import 'package:badir_app/view_model/auth_cubit/auth_cubit.dart';
+import 'package:badir_app/view_model/auth_cubit/auth_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../shared/components/colors.dart';
-import '../../view_model/home_view_model/dashboard_cubit.dart';
+import '../../shared/components/colors.dart';
+import '../../view_model/dashboard_cubit/dashboard_cubit.dart';
 
 class DrawerItem extends StatelessWidget{
   List<Map<String,dynamic>> drawerData = [

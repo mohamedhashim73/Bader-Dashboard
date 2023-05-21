@@ -1,5 +1,5 @@
-import 'package:badir_app/Admin/model/event_model.dart';
-import 'package:badir_app/Admin/model/notification_model.dart';
+import 'package:badir_app/model/event_model.dart';
+import 'package:badir_app/model/notification_model.dart';
 import 'package:badir_app/shared/Constants/constants.dart';
 import 'package:badir_app/shared/Constants/enumeration.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

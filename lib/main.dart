@@ -1,26 +1,22 @@
-import 'dart:io';
-
-import 'package:badir_app/Admin/repositories/auth_repo.dart';
-import 'package:badir_app/Admin/repositories/dashboard_repo.dart';
+import 'package:badir_app/repositories/auth_repo.dart';
+import 'package:badir_app/repositories/dashboard_repo.dart';
 import 'package:badir_app/shared/bloc_observer/bloc_observer.dart';
 import 'package:badir_app/shared/components/colors.dart';
-import 'package:badir_app/Admin/view/screens/create_club_screen.dart';
-import 'package:badir_app/Admin/view/screens/dashboard_screen.dart';
-import 'package:badir_app/Admin/view/screens/login_screen.dart';
-import 'package:badir_app/Admin/view/screens/view_clubs_screen.dart';
-import 'package:badir_app/Admin/view_model/auth_view_model/auth_cubit.dart';
-import 'package:badir_app/Admin/view_model/home_view_model/dashboard_cubit.dart';
-import 'package:badir_app/shared/Constants/constants.dart';
+import 'package:badir_app/view/screens/assign_leader_screen.dart';
+import 'package:badir_app/view/screens/create_club_screen.dart';
+import 'package:badir_app/view/screens/dashboard_screen.dart';
+import 'package:badir_app/view/screens/delete_club_screen.dart';
+import 'package:badir_app/view/screens/login_screen.dart';
+import 'package:badir_app/view/screens/review_reports_screen.dart';
+import 'package:badir_app/view/screens/view_clubs_screen.dart';
+import 'package:badir_app/view/screens/view_events_screen.dart';
+import 'package:badir_app/view/screens/view_reports_screen.dart';
+import 'package:badir_app/view_model/auth_cubit/auth_cubit.dart';
+import 'package:badir_app/view_model/dashboard_cubit/dashboard_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'Admin/view/screens/assign_leader_screen.dart';
-import 'Admin/view/screens/delete_club_screen.dart';
-import 'Admin/view/screens/review_reports_screen.dart';
-import 'Admin/view/screens/view_events_screen.dart';
-import 'Admin/view/screens/view_reports_screen.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {

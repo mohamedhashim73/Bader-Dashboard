@@ -1,12 +1,10 @@
-import 'package:badir_app/Admin/model/club_model.dart';
-import 'package:badir_app/Admin/model/report_model.dart';
-import 'package:badir_app/shared/components/colors.dart';
-import 'package:badir_app/Admin/view/widgets/drawer_item.dart';
-import 'package:badir_app/Admin/view_model/home_view_model/dashboard_states.dart';
-import 'package:badir_app/Admin/view_model/home_view_model/dashboard_cubit.dart';
+
+import 'package:badir_app/view_model/dashboard_cubit/dashboard_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../model/report_model.dart';
 
 class ViewReportDetails extends StatelessWidget {
   final ReportModel model;

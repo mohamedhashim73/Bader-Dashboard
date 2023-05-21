@@ -1,19 +1,17 @@
-import 'package:badir_app/Admin/model/admin_category_model.dart';
-import 'package:badir_app/Admin/model/club_model.dart';
-import 'package:badir_app/Admin/model/report_model.dart';
-import 'package:badir_app/Admin/view/widgets/display_dialogs.dart';
+
 import 'package:badir_app/shared/Constants/constants.dart';
 import 'package:badir_app/shared/components/colors.dart';
-import 'package:badir_app/Admin/view/screens/view_club_details.dart';
-import 'package:badir_app/Admin/view/screens/view_report_details.dart';
-import 'package:badir_app/Admin/view/widgets/drawer_item.dart';
-import 'package:badir_app/Admin/view_model/home_view_model/dashboard_states.dart';
-import 'package:badir_app/Admin/view_model/home_view_model/dashboard_cubit.dart';
+import 'package:badir_app/view/screens/view_club_details.dart';
+import 'package:badir_app/view_model/dashboard_cubit/dashboard_cubit.dart';
 import 'package:badir_app/shared/components/show_loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../model/report_model.dart';
+import '../../view_model/dashboard_cubit/dashboard_states.dart';
+import '../widgets/display_dialogs.dart';
 
 class ReviewReportsScreen extends StatelessWidget {
   const ReviewReportsScreen({super.key});

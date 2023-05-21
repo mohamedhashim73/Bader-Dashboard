@@ -1,4 +1,4 @@
-import 'package:badir_app/Admin/model/admin_model.dart';
+import 'package:badir_app/model/admin_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

@@ -48,7 +48,7 @@ class CreateClubScreen extends StatelessWidget{
                     child: TextFormField(
                       controller: clubName,
                       decoration:  InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 5.h),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 5.w,vertical: 5.h),
                         border: const OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
                       ),
                     ),

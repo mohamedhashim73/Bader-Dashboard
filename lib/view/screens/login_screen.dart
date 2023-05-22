@@ -128,7 +128,7 @@ Widget _textField({required TextEditingController controller,bool? isSecure}){
       controller: controller,
       obscureText: isSecure ?? false,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 0),
+        contentPadding: EdgeInsets.symmetric(horizontal: 5.w,vertical: 0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4)
         ),

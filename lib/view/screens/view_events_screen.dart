@@ -26,8 +26,9 @@ class ViewEventsScreen extends StatelessWidget {
                 body: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 12.h),
                     child: cubit.reports.isNotEmpty ?
-                    ListView.builder(
+                    ListView.separated(
                         itemCount: cubit.reports.length,
+                        separatorBuilder: (context,index) => SizedBox(height: 15.h,),
                         shrinkWrap: true,
                         itemBuilder: (context,index){
                           return GestureDetector(

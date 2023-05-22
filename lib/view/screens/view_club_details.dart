@@ -61,7 +61,7 @@ Widget _clubDetailsBody({required ClubModel model,required bool isMobile}){
       model.image != null ?
       Center(child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.w),
-        child: Image.network(model.image!,fit: BoxFit.cover),
+        child: Image.network(model.image!,height: 400.h,width: double.infinity,fit: BoxFit.fill,),
       )) :
       Container(
         padding: EdgeInsets.symmetric(vertical: isMobile ? 5.h : 10.h,horizontal: isMobile ? 5.w : 10.w),
@@ -84,7 +84,7 @@ Widget _clubDetailsBody({required ClubModel model,required bool isMobile}){
         ),
       ),
       SizedBox(height: 20.h,),
-      Center(child: ResponsiveText(child: Text(model.name!,style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: isMobile? 18.sp: 22.sp),textAlign: TextAlign.center,))),
+      Center(child: ResponsiveText(child: Text("نادي ${model.name!}",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: isMobile? 18.sp: 22.sp),textAlign: TextAlign.center,))),
       if( model.description != null )
         Center(
             child: Text(model.description!,
@@ -145,12 +145,15 @@ Widget _clubDetailsBody({required ClubModel model,required bool isMobile}){
 }
 
 Widget _containerItem({required String text,required bool isMobile}){
-  return Card(
-    elevation: 0.2,
-    child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: isMobile? 12.w : 10.w,vertical: 10.h),
-      child: Text(text,overflow:TextOverflow.ellipsis,textAlign: TextAlign.start,style: TextStyle(color: Colors.black.withOpacity(0.7)),),
-    )
+  return SizedBox(
+    width: double.infinity,
+    child: Card(
+      elevation: 0.2,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 5.w,vertical: 10.h),
+        child: Text(text,overflow:TextOverflow.ellipsis,textAlign: TextAlign.start,style: TextStyle(color: Colors.black.withOpacity(0.7)),),
+      )
+    ),
   );
 }
 

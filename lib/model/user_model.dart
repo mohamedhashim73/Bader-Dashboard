@@ -1,6 +1,7 @@
 class UserModel {
   String? name;
   String? id;
+  String? firebaseMessagingToken;
   String? email;
   String? role;
   String? password;
@@ -17,6 +18,7 @@ class UserModel {
   UserModel.fromJson({required Map<String,dynamic> json}){
     name = json['name'];
     id = json['id'];
+    firebaseMessagingToken = json['firebaseMessagingToken'];
     email = json['email'];
     role = json['role'];
     password = json['password'];

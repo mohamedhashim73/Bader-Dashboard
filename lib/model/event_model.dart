@@ -13,16 +13,16 @@ class EventModel{
   String? clubName;
   String? clubID;
 
-  EventModel({required this.speakers,required this.id,required this.startDate,required this.endDate,required this.clubID,required this.name,required this.image,required this.clubName,required this.link,required this.location,required this.forPublic,required this.time});
-
   EventModel.fromJson({required Map<String,dynamic> json}){
     name = json['name'];
     id = json['id'];
     image = json['image'];
+    description = json['description'];
     startDate = json['startDate'];
     endDate = json['endDate'];
     forPublic = json['forPublic'];
     time = json['time'];
+    link = json['link'];
     speakers = json['speakers'];
     location = json['location'];
     clubID = json['clubID'];

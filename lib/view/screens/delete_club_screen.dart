@@ -84,7 +84,7 @@ Widget _clubItem({required ClubModel model,required DashBoardCubit cubit,require
                               child: Text("نعم",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 15.sp),),
                               onTap: ()
                               {
-                                cubit.deleteClub(clubID: model.id.toString());
+                                cubit.deleteClub(club: model);
                                 Navigator.pop(context);
                               },
                             ),

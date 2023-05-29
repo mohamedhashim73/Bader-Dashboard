@@ -6,7 +6,8 @@ enum NotificationType{
   rejectYourRequestToAuthenticateOnATask,
   rejectYourMembershipRequest,
   acceptPlanForClubYouLead,
-  rejectPlanForClubYouLead
+  rejectPlanForClubYouLead,
+  deleteClubForEver
 }
 
 enum EventForPublicOrNot{

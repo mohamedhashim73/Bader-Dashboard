@@ -25,10 +25,10 @@ class AssignClubLeaderScreen extends StatelessWidget{
           {
             if( state is AssignLeaderToClubSuccessState )
               {
+                Navigator.pop(context);
                 cubit.selectedClubName = null;
                 cubit.selectedLeaderEmail = null;
                 showSnackBar(context: context, message: "تم تعيين المستخدم ك أدمن",backgroundColor: Colors.green);
-                Navigator.pop(context);
               }
             if( state is FailedToAssignLeaderToClubState )
               {
@@ -37,7 +37,7 @@ class AssignClubLeaderScreen extends StatelessWidget{
           },
           builder: (context,state) {
             return Scaffold(
-              appBar: AppBar(title: const Text("تعيين قائد")),
+              appBar: AppBar(title: const Text("تعيين قائد"),leading: BackButton(onPressed: () => Navigator.pop(context)),),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.5.w,vertical: 20.h),
                 child: ListView(
@@ -103,7 +103,7 @@ class AssignClubLeaderScreen extends StatelessWidget{
                             {
                               UserModel leader = await cubit.getInfoForSelectedLeaderFromDropDownButton(email: cubit.selectedLeaderEmail!);
                               ClubModel club = await cubit.getInfoForClubChosenFromDropDownButton(clubName: cubit.selectedClubName!);
-                              await cubit.assignClubLeader(clubName:cubit.selectedClubName!,clubID: club.id.toString(), leaderID: leader.id!, leaderName: leader.name!, leaderEmail: leader.email!);
+                              await cubit.assignClubLeader(receiverFirebaseFCMToken: leader.firebaseMessagingToken!,clubName:cubit.selectedClubName!,clubID: club.id.toString(), leaderID: leader.id!, leaderName: leader.name!, leaderEmail: leader.email!);
                             }
                         },
                         minWidth: double.infinity,

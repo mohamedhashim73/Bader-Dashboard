@@ -22,6 +22,11 @@ class DrawerItem extends StatelessWidget{
       'iconData' : Icons.view_agenda,
       'routeName' : 'view_Clubs'
     },
+    {
+      'title' : 'تسجيل خروج',
+      'iconData' : Icons.logout,
+      'routeName' : 'login_screen'
+    },
   ];
 
   DrawerItem({super.key});
@@ -56,7 +61,15 @@ class DrawerItem extends StatelessWidget{
                         return ListTile(
                           onTap: ()
                           {
-                            Navigator.pushNamed(context, drawerData[index]['routeName']);
+                            // 4 => 0 1 2 3
+                            if( index == drawerData.length-1 )        // TODO: Mean هو كده في تسجيل الخروج
+                            {
+                              Navigator.pushReplacementNamed(context, drawerData[index]['routeName']);
+                            }
+                            else
+                            {
+                              Navigator.pushNamed(context, drawerData[index]['routeName']);
+                            }
                           },
                           leading: Text(drawerData[index]['title']),
                           trailing: Icon(drawerData[index]['iconData']),

@@ -25,7 +25,7 @@ class AuthRepository{
 
   Future<AdminModel?> getAdminData() async {
     AdminModel? model;
-    await FirebaseFirestore.instance.collection('Admin').get().then((value){
+    await FirebaseFirestore.instance.collection('Admin').get().then((value) async {
       model = AdminModel.fromJson(json: value.docs.first.data());
       debugPrint("Admin Info is : ${value.docs.first.data()}");
     });

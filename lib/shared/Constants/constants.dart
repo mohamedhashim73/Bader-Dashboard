@@ -18,4 +18,6 @@ class Constants{
   static List<String> reportTypes = ["خطة سنوية","فعالية","ساعات تطوعية"];
   static String? kAdminID;
   static String getTimeNow() => Jiffy(DateTime.now()).yMMMd;
+  // TODO: هستعمله عند ارسال اشعار ب استخدام Firebase FCM
+  static const String serverKey = "key=AAAAfzXaND4:APA91bEJtFGlWFAiVTBtbhnf9RAAKaUMaj-tAf0updm5hJV2QSat7-z2A_mrlpQb0-mpgoa2PmkX_qtb6oWWu7tE0whkEsh9zHTtRWNSA7xVjCQvTt3jD19kPWSVGD4VrH-_p52s6vZ4";
 }

@@ -43,12 +43,20 @@ dependencies:
   jiffy: ^5.0.0
   url_launcher: ^6.1.11
   http: ^0.13.6
+  flutter_native_splash: ^2.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  background_image: "assets/images/splash_screen.png"
+  web: true
+  android: true
+  ios: true
 
 flutter:
 

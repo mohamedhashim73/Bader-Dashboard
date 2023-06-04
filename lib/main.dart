@@ -8,7 +8,7 @@ import 'package:badir_app/view/screens/create_club_screen.dart';
 import 'package:badir_app/view/screens/dashboard_screen.dart';
 import 'package:badir_app/view/screens/delete_club_screen.dart';
 import 'package:badir_app/view/screens/login_screen.dart';
-import 'package:badir_app/view/screens/review_reports_screen.dart';
+import 'package:badir_app/view/screens/review_annual_plans_screen.dart';
 import 'package:badir_app/view/screens/view_clubs_screen.dart';
 import 'package:badir_app/view/screens/view_events_screen.dart';
 import 'package:badir_app/view/screens/view_reports_screen.dart';

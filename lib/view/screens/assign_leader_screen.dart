@@ -103,11 +103,11 @@ class AssignClubLeaderScreen extends StatelessWidget{
                             {
                               UserModel leader = await cubit.getInfoForSelectedLeaderFromDropDownButton(email: cubit.selectedLeaderEmail!);
                               ClubModel club = await cubit.getInfoForClubChosenFromDropDownButton(clubName: cubit.selectedClubName!);
-                              await cubit.assignClubLeader(receiverFirebaseFCMToken: leader.firebaseMessagingToken!,clubName:cubit.selectedClubName!,clubID: club.id.toString(), leaderID: leader.id!, leaderName: leader.name!, leaderEmail: leader.email!);
+                              await cubit.assignClubLeader(receiverFirebaseFCMToken: leader.firebaseMessagingToken,clubName:cubit.selectedClubName!,clubID: club.id.toString(), leaderID: leader.id!, leaderName: leader.name!, leaderEmail: leader.email!);
                             }
                         },
                         minWidth: double.infinity,
-                        child: Text(state is CreateClubLoadingState? "جاري التعيين" : "تعيين",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18.5.sp),)
+                        child: Text(state is AssignLeaderToClubLoadingState? "جاري التعيين" : "تعيين",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18.5.sp),)
                     ),
                   ],
                 ),

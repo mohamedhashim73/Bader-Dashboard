@@ -171,12 +171,12 @@ class DashBoardCubit extends Cubit<DashBoardStates>{
   }
 
   // Todo: Assign Club Leader
-  Future<void> assignClubLeader({required String clubName,required String receiverFirebaseFCMToken,required String clubID,required String leaderID,required String leaderName,required String leaderEmail}) async {
+  Future<void> assignClubLeader({required String clubName,String? receiverFirebaseFCMToken,required String clubID,required String leaderID,required String leaderName,required String leaderEmail}) async {
     emit(AssignLeaderToClubLoadingState());
     try
     {
       await dashboardRepository.assignClubLeader(clubID: clubID, leaderID: leaderID, leaderEmail: leaderEmail, leaderName: leaderName);
-      await dashboardRepository.notifyUserOrAllUsersUsingFCMAPI(receiverFirebaseFCMToken:receiverFirebaseFCMToken,notifyType: NotificationType.adminMakesYouALeaderOnSpecificClub, notifyBody: "لقد تم تعيينك أدمن لنادي $clubName", toAllUsersNotToSpecificOne: false);
+      if( receiverFirebaseFCMToken != null ) await dashboardRepository.notifyUserOrAllUsersUsingFCMAPI(receiverFirebaseFCMToken:receiverFirebaseFCMToken,notifyType: NotificationType.adminMakesYouALeaderOnSpecificClub, notifyBody: "لقد تم تعيينك أدمن لنادي $clubName", toAllUsersNotToSpecificOne: false);
       // Todo: Send Notification to Leader that you assigned to Know about his new role
       bool sendNotification = await sendNotifyToUserAfterMakingHimALeaderOnSpecificClub(clubID: clubID,clubName: clubName,receiverID: leaderID);
       if( sendNotification == true )

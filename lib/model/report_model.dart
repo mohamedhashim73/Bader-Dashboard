@@ -5,6 +5,7 @@ class ReportModel{
   String? clubName;
   String? senderID;
   String? pdfLink;
+  bool? isAccepted;
 
   ReportModel.fromJson({required Map<String,dynamic> json}){
     reportID = json['reportID'];
@@ -13,17 +14,7 @@ class ReportModel{
     clubName = json['clubName'];
     senderID = json['senderID'];
     pdfLink = json['pdfLink'];
-  }
-
-  Map<String,dynamic> toJson(){
-    return {
-      'reportID' : reportID,
-      'reportType' : reportType,
-      'clubID' : clubID,
-      'clubName' : clubName,
-      'senderID' : senderID,
-      'pdfLink' : pdfLink,
-    };
+    isAccepted = json['isAccepted'];
   }
 
 }

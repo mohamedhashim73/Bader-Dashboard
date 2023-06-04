@@ -50,7 +50,7 @@ class ReviewReportsScreen extends StatelessWidget {
                         itemCount: cubit.annualPlansReports.length,
                         shrinkWrap: true,
                         itemBuilder: (context,index){
-                          return _reportItem(isMobile:isMobile,model: cubit.annualPlansReports[index],context: context);
+                          return _reportItem(isMobile:isMobile,report: cubit.annualPlansReports[index],context: context);
                         }
                     ) :
                     Center(
@@ -64,7 +64,7 @@ class ReviewReportsScreen extends StatelessWidget {
   }
 }
 
-Widget _reportItem({required bool isMobile,required ReportModel model,required BuildContext context}){
+Widget _reportItem({required bool isMobile,required ReportModel report,required BuildContext context}){
   return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 15.h),
       decoration: const BoxDecoration(
@@ -74,7 +74,7 @@ Widget _reportItem({required bool isMobile,required ReportModel model,required B
         crossAxisAlignment: CrossAxisAlignment.start,
         children:
         [
-          Text("${model.clubName!} - خطة سنوية",style: TextStyle(fontWeight: FontWeight.w600,fontSize: isMobile ? 14.5.sp : 16.5.sp,overflow: TextOverflow.ellipsis),),
+          Text("${report.clubName!} - خطة سنوية",style: TextStyle(fontWeight: FontWeight.w600,fontSize: isMobile ? 14.5.sp : 16.5.sp,overflow: TextOverflow.ellipsis),),
           SizedBox(height: 10.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -84,7 +84,7 @@ Widget _reportItem({required bool isMobile,required ReportModel model,required B
                 color: mainColor,
                 onTap: ()
                 {
-                  DashBoardCubit.getInstance(context).openPdf(link: model.pdfLink!);
+                  DashBoardCubit.getInstance(context).openPdf(link: report.pdfLink!);
                 },
                 title: "عرض",
                 isMobile: isMobile
@@ -94,21 +94,31 @@ Widget _reportItem({required bool isMobile,required ReportModel model,required B
                 color: Colors.green,
                 onTap: ()
                 {
-                  DashBoardCubit.getInstance(context).acceptOrRejectPlanForClub(report: model, responseStatus: true);
+                  if( report.isAccepted == null )
+                  {
+                    DashBoardCubit.getInstance(context).acceptOrRejectPlanForClub(report: report, responseStatus: true);
+                  }
+                  else
+                  {
+                    showSnackBar(context: context, message: "تم الموافقة علي هذه الخطة من قبل");
+                  }
                 },
-                title: "موافقة",
+                title: report.isAccepted != null && report.isAccepted == true ? "تمت الموافقة" : "موافقة",
                 isMobile: isMobile
               ),
-              SizedBox(width: isMobile ? 7.w : 10.w,),
-              _buttonItem(
-                color: Colors.red,
-                onTap: ()
-                {
-                  DashBoardCubit.getInstance(context).acceptOrRejectPlanForClub(report: model, responseStatus: false);
-                },
-                title: "رفض",
-                isMobile: isMobile
-              ),
+              // TODO: Delete Button will show only if isAccepted == null معناها ان لسه لم يتم الموافقه او رفض الخطة
+              if( report.isAccepted ==  null )
+                SizedBox(width: isMobile ? 7.w : 10.w,),
+              if( report.isAccepted ==  null )
+                _buttonItem(
+                  color: Colors.red,
+                  onTap: ()
+                  {
+                    DashBoardCubit.getInstance(context).acceptOrRejectPlanForClub(report: report, responseStatus: false);
+                  },
+                  title: "رفض",
+                  isMobile: isMobile
+                ),
             ],
           )
         ],

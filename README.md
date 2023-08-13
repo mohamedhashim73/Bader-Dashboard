@@ -1,16 +1,21 @@
-# badir_app
+# Badir App
+- This App aims to organize the operations of University student clubs, builds a good connection between the
+university community, clubs leaders, members.
+- Besides that, it is an organized source of information for interested non-members.
 
-A new Flutter project.
+# Technologies
+- Dart
+- Flutter
+- Firebase
+- Clean Architecture
+- Dependancy Injection
+- Cubit.
 
-## Getting Started
+# Video link
 
-This project is a starting point for a Flutter application.
+https://www.linkedin.com/posts/mohamed-hashim-3b2ab2235_badir-user-app-dashboard-this-app-activity-7085767477174972416-_Kx8?utm_source=share&utm_medium=member_desktop
 
-A few resources to get you started if this is your first Flutter project:
+# Dashboard source code
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+https://github.com/mohamedhashim73/Badir-App
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
